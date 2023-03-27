@@ -7,15 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D2A2B14D29B3BFEC0022620C /* yellowSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2A2B14C29B3BFEC0022620C /* yellowSound.wav */; };
 		D2AAFBD129AD1A4400864504 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AAFBD029AD1A4400864504 /* AppDelegate.swift */; };
 		D2AAFBD329AD1A4400864504 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AAFBD229AD1A4400864504 /* SceneDelegate.swift */; };
 		D2AAFBD529AD1A4400864504 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AAFBD429AD1A4400864504 /* ViewController.swift */; };
 		D2AAFBD829AD1A4400864504 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2AAFBD629AD1A4400864504 /* Main.storyboard */; };
 		D2AAFBDA29AD1A4500864504 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2AAFBD929AD1A4500864504 /* Assets.xcassets */; };
 		D2AAFBDD29AD1A4500864504 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2AAFBDB29AD1A4500864504 /* LaunchScreen.storyboard */; };
+		D2AAFBE629AD1E2A00864504 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2AAFBE529AD1E2A00864504 /* SnapKit */; };
+		D2BED43C29B1082800AE2D44 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2BED43B29B1082800AE2D44 /* beep.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D2A2B14C29B3BFEC0022620C /* yellowSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = yellowSound.wav; sourceTree = "<group>"; };
 		D2AAFBCD29AD1A4400864504 /* OTUS_MyCourseWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OTUS_MyCourseWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2AAFBD029AD1A4400864504 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2AAFBD229AD1A4400864504 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +28,7 @@
 		D2AAFBD929AD1A4500864504 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2AAFBDC29AD1A4500864504 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D2AAFBDE29AD1A4500864504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2BED43B29B1082800AE2D44 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2AAFBE629AD1E2A00864504 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,15 +62,34 @@
 		D2AAFBCF29AD1A4400864504 /* OTUS_MyCourseWork */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAFBD029AD1A4400864504 /* AppDelegate.swift */,
-				D2AAFBD229AD1A4400864504 /* SceneDelegate.swift */,
+				D2B4047C29BF79C700CEAD9E /* AppDelegate */,
 				D2AAFBD429AD1A4400864504 /* ViewController.swift */,
+				D2BED43A29B1082800AE2D44 /* Sounds */,
 				D2AAFBD629AD1A4400864504 /* Main.storyboard */,
 				D2AAFBD929AD1A4500864504 /* Assets.xcassets */,
 				D2AAFBDB29AD1A4500864504 /* LaunchScreen.storyboard */,
 				D2AAFBDE29AD1A4500864504 /* Info.plist */,
 			);
 			path = OTUS_MyCourseWork;
+			sourceTree = "<group>";
+		};
+		D2B4047C29BF79C700CEAD9E /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAFBD029AD1A4400864504 /* AppDelegate.swift */,
+				D2AAFBD229AD1A4400864504 /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		D2BED43A29B1082800AE2D44 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				D2A2B14C29B3BFEC0022620C /* yellowSound.wav */,
+				D2BED43B29B1082800AE2D44 /* beep.wav */,
+			);
+			name = Sounds;
+			path = ../../../../Downloads/Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +108,9 @@
 			dependencies = (
 			);
 			name = OTUS_MyCourseWork;
+			packageProductDependencies = (
+				D2AAFBE529AD1E2A00864504 /* SnapKit */,
+			);
 			productName = OTUS_MyCourseWork;
 			productReference = D2AAFBCD29AD1A4400864504 /* OTUS_MyCourseWork.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +139,9 @@
 				Base,
 			);
 			mainGroup = D2AAFBC429AD1A4400864504;
+			packageReferences = (
+				D2AAFBE429AD1E2A00864504 /* XCRemoteSwiftPackageReference "snapkit" */,
+			);
 			productRefGroup = D2AAFBCE29AD1A4400864504 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,6 +156,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2A2B14D29B3BFEC0022620C /* yellowSound.wav in Resources */,
+				D2BED43C29B1082800AE2D44 /* beep.wav in Resources */,
 				D2AAFBDD29AD1A4500864504 /* LaunchScreen.storyboard in Resources */,
 				D2AAFBDA29AD1A4500864504 /* Assets.xcassets in Resources */,
 				D2AAFBD829AD1A4400864504 /* Main.storyboard in Resources */,
@@ -295,6 +328,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -323,6 +357,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -358,6 +393,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D2AAFBE429AD1E2A00864504 /* XCRemoteSwiftPackageReference "snapkit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/snapkit/snapkit.git";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D2AAFBE529AD1E2A00864504 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D2AAFBE429AD1E2A00864504 /* XCRemoteSwiftPackageReference "snapkit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D2AAFBC529AD1A4400864504 /* Project object */;
 }
