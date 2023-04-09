@@ -14,10 +14,10 @@ class MainMenuViewController: UIViewController {
         label.text = "Repeat-a-color"
         return label
     }()
-    private lazy var loadCharactersButton: UIButton = {
+    private lazy var gameButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
         button.layer.cornerRadius = 15
         button.setTitle("PLAY GAME", for: .normal)
@@ -26,10 +26,10 @@ class MainMenuViewController: UIViewController {
         return button
     }()
     
-    private lazy var loadLocationsButton: UIButton = {
+    private lazy var settingsButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemYellow
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
         button.layer.cornerRadius = 15
         button.setTitle("SETTINGS", for: .normal)
@@ -38,15 +38,15 @@ class MainMenuViewController: UIViewController {
         return button
     }()
     
-    private lazy var loadEpisodesButton: UIButton = {
+    private lazy var topPlayersButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemPurple
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
         button.layer.cornerRadius = 15
         button.setTitle("TOP PLAYERS", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        //button.addTarget(self, action: #selector(openTopPlayers), for: .touchUpInside)
+        button.addTarget(self, action: #selector(openTopPlayers), for: .touchUpInside)
         return button
     }()
     
@@ -57,26 +57,26 @@ class MainMenuViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(100)
         }
-        view.addSubview(loadCharactersButton)
-        loadCharactersButton.snp.makeConstraints { make in
+        view.addSubview(gameButton)
+        gameButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(mainLabel.snp.bottom).offset(50)
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
         
-        view.addSubview(loadLocationsButton)
-        loadLocationsButton.snp.makeConstraints { make in
+        view.addSubview(settingsButton)
+        settingsButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(loadCharactersButton.snp.bottom).offset(20)
+            make.top.equalTo(gameButton.snp.bottom).offset(20)
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
         
-        view.addSubview(loadEpisodesButton)
-        loadEpisodesButton.snp.makeConstraints { make in
+        view.addSubview(topPlayersButton)
+        topPlayersButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(loadLocationsButton.snp.bottom).offset(20)
+            make.top.equalTo(settingsButton.snp.bottom).offset(20)
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
@@ -93,6 +93,10 @@ class MainMenuViewController: UIViewController {
     }
     @objc func openSettings(sender: UIButton!){
         let settingsController = SettingsViewController()
-        navigationController?.pushViewController(settingsController, animated: false)
+        navigationController?.pushViewController(settingsController, animated: true)
+    }
+    @objc func openTopPlayers(sender: UIButton!){
+        let topPlayersController = TopPlayersViewController()
+        navigationController?.pushViewController(topPlayersController, animated: true)
     }
 }

@@ -10,6 +10,12 @@ import SnapKit
 import AVFoundation
 
 class GameViewController: UIViewController {
+    private lazy var mainLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 30.0)
+        label.isHidden = true
+        return label
+    }()
     private lazy var AllOff: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "allOff.png")
@@ -52,26 +58,30 @@ class GameViewController: UIViewController {
         image.layer.zPosition = 1
         return image
     }()
-    private lazy var YellowButton: UIButton = {
+    private lazy var yellowButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .yellow
+        button.tag = 2
+        //button.backgroundColor = .yellow
         button.layer.cornerRadius = 50
         button.layer.zPosition = 5
-        button.isHidden = true
+        button.isHidden = false
+        button.addTarget(self, action: #selector(pressButton), for: .touchUpInside)
         return button
     }()
-    private lazy var RedButton: UIButton = {
+    private lazy var redButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .red
+        button.tag = 1
+        //button.backgroundColor = .red
         button.layer.cornerRadius = 50
         button.layer.zPosition = 5
-        button.isHidden = true
+        button.isHidden = false
+        button.addTarget(self, action: #selector(pressButton), for: .touchUpInside)
         return button
     }()
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-        button.layer.borderWidth = 2
+        button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
         button.layer.cornerRadius = 15
         button.layer.zPosition = 5
@@ -87,6 +97,8 @@ class GameViewController: UIViewController {
     let blinkSpeed: Double = 0.5
     var gameSize = 300
     var queue = OperationQueue()
+    var gameSubsequence: [Int] = [1, 2, 1]
+    var playerSubsequence: [Int] = []
     
     
     private func setupViews() {
@@ -97,10 +109,14 @@ class GameViewController: UIViewController {
         view.addSubview(BlueLight)
         view.addSubview(OrangeLight)
         view.addSubview(RedLight)
-        view.addSubview(YellowButton)
-        view.addSubview(RedButton)
+        view.addSubview(yellowButton)
+        view.addSubview(redButton)
         view.addSubview(startButton)
-        
+        view.addSubview(mainLabel)
+        mainLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(100)
+        }
         
         AllOff.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -137,12 +153,12 @@ class GameViewController: UIViewController {
             make.centerY.equalToSuperview()
             make.width.height.equalTo(300)
         }
-        YellowButton.snp.makeConstraints { make in
+        yellowButton.snp.makeConstraints { make in
             make.centerX.equalTo(AllOff.snp.centerX).offset(90)
             make.centerY.equalTo(AllOff.snp.centerY).offset(50)
             make.width.height.equalTo(100)
         }
-        RedButton.snp.makeConstraints { make in
+        redButton.snp.makeConstraints { make in
             make.centerX.equalTo(AllOff.snp.centerX).offset(90)
             make.centerY.equalTo(AllOff.snp.centerY).offset(-50)
             make.width.height.equalTo(100)
@@ -173,7 +189,7 @@ class GameViewController: UIViewController {
         //                }
         
         queue.maxConcurrentOperationCount = 1
-        lightQueue = [VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight, VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight, VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight]
+        lightQueue = [VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight]
         
         
         
@@ -240,32 +256,75 @@ class GameViewController: UIViewController {
     }
     
     
-    
     @objc func startGame(sender: UIButton!){
-        enum NetworkError: Error {
-            case customError
-        }
-        navigationController?.navigationBar.isHidden = true
+        playerSubsequence = []
+        redButton.isHidden = false
+        yellowButton.isHidden = false
+        mainLabel.isHidden = true
         startButton.isHidden = true
-        //lightQueue = lightQueue.shuffled()
-        for (index, item) in lightQueue.enumerated() {
-            queue.addOperation { [weak self] in
-                DispatchQueue.main.async {
-                    self?.lightLamp(lampImageView: item)
-                }
-
-                self?.queue.isSuspended = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self?.queue.isSuspended = false
-                    if (index == self!.lightQueue.indices.last) {
-                        //print (lightQueue.indices.last)
-                        //self!.startButton.isHidden = false
-                    }
-                }
-
-            }
-//            self.lightLamp(lampImageView: item)
+    }
+//    @objc func startGame(sender: UIButton!){
+//        enum NetworkError: Error {
+//            case customError
+//        }
+//        //navigationController?.navigationBar.isHidden = true
+//        //startButton.isHidden = true
+//        //lightQueue = lightQueue.shuffled()
+//        for (index, item) in lightQueue.enumerated() {
+//            queue.addOperation { [weak self] in
+//                DispatchQueue.main.async {
+//                    self?.lightLamp(lampImageView: item)
+//                }
+//
+//                self?.queue.isSuspended = true
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                    self?.queue.isSuspended = false
+//                    if (index == self!.lightQueue.indices.last) {
+//                        //print (lightQueue.indices.last)
+//                        //self!.startButton.isHidden = false
+//                    }
+//                }
+//
+//            }
+//        }
+//    }
+    @objc func pressButton(sender: UIButton) {
+        let tag: Int = sender.tag
+        let lamp: UIImageView
+        switch tag {
+        case 1: lamp = RedLight
+        case 2: lamp = YellowLight
+        default: return
         }
+        lightLamp(lampImageView: lamp)
+        playerSubsequence.append(sender.tag)
+            if isEqualArray(playerSubsequence, with: gameSubsequence) {
+                if playerSubsequence.count == gameSubsequence.count {
+                    mainLabel.text = "YOU WIN!"
+                    redButton.isHidden = true
+                    yellowButton.isHidden = true
+                    mainLabel.isHidden = false
+                    startButton.isHidden = false
+                }
+            } else {
+                mainLabel.text = "YOU LOOSE!"
+                redButton.isHidden = true
+                yellowButton.isHidden = true
+                mainLabel.isHidden = false
+                startButton.isHidden = false
+            }
+    }
+    func isEqualArray(_ array1: [Int], with array2: [Int]) -> Bool {
+        var isEqual: Bool = true
+        for (index, item) in array1.enumerated() {
+            if item != (array2[index]) {
+                isEqual = false
+                break
+            }
+        }
+        return isEqual
+        //return Set(array1).intersection(array2).count == 0 ? false : true
     }
 }
+
 
