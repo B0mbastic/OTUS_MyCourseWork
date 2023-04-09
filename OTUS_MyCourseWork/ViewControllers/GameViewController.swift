@@ -9,15 +9,7 @@ import UIKit
 import SnapKit
 import AVFoundation
 
-class ViewController: UIViewController {
-    
-    //    class GameLight {
-    //        let imageFile: String
-    //        let
-    //
-    //
-    //    }
-    
+class GameViewController: UIViewController {
     private lazy var AllOff: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "allOff.png")
@@ -76,13 +68,15 @@ class ViewController: UIViewController {
         button.isHidden = true
         return button
     }()
-    private lazy var StartButton: UIButton = {
+    private lazy var startButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .darkGray
-        button.layer.cornerRadius = 25
+        button.backgroundColor = .systemGreen
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
+        button.layer.cornerRadius = 15
         button.layer.zPosition = 5
         button.setTitle("START", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(startGame), for: .touchUpInside)
         return button
     }()
@@ -90,7 +84,7 @@ class ViewController: UIViewController {
     var lightQueue: [UIImageView] = []
     let yellowSound = URL(fileURLWithPath: Bundle.main.path(forResource: "yellowSound", ofType: "wav")!)
     var audioPlayer = AVAudioPlayer()
-    let blinkSpeed: Double = 0.2
+    let blinkSpeed: Double = 0.5
     var gameSize = 300
     var queue = OperationQueue()
     
@@ -105,7 +99,7 @@ class ViewController: UIViewController {
         view.addSubview(RedLight)
         view.addSubview(YellowButton)
         view.addSubview(RedButton)
-        view.addSubview(StartButton)
+        view.addSubview(startButton)
         
         
         AllOff.snp.makeConstraints { make in
@@ -153,16 +147,17 @@ class ViewController: UIViewController {
             make.centerY.equalTo(AllOff.snp.centerY).offset(-50)
             make.width.height.equalTo(100)
         }
-        StartButton.snp.makeConstraints { make in
+        startButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalTo(AllOff.snp.centerY).offset(200)
             make.width.equalTo(150)
-            make.height.equalTo(50)
+            make.height.equalTo(40)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setupViews()
         
         
@@ -178,7 +173,7 @@ class ViewController: UIViewController {
         //                }
         
         queue.maxConcurrentOperationCount = 1
-        lightQueue = [YellowLight, GreenLight, VioletLight, RedLight, BlueLight, OrangeLight]
+        lightQueue = [VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight, VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight, VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight]
         
         
         
@@ -244,27 +239,32 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    
     @objc func startGame(sender: UIButton!){
-        StartButton.isHidden = true
-        lightQueue = lightQueue.shuffled()
+        enum NetworkError: Error {
+            case customError
+        }
+        navigationController?.navigationBar.isHidden = true
+        startButton.isHidden = true
+        //lightQueue = lightQueue.shuffled()
         for (index, item) in lightQueue.enumerated() {
             queue.addOperation { [weak self] in
                 DispatchQueue.main.async {
                     self?.lightLamp(lampImageView: item)
                 }
-                
+
                 self?.queue.isSuspended = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self?.queue.isSuspended = false
-                    
+                    if (index == self!.lightQueue.indices.last) {
+                        //print (lightQueue.indices.last)
+                        //self!.startButton.isHidden = false
+                    }
                 }
-                
+
             }
-            if (index == lightQueue.indices.last) {
-                print ("TTT")
-                StartButton.isHidden = false
-            }
-            
+//            self.lightLamp(lampImageView: item)
         }
     }
 }
