@@ -12,6 +12,7 @@ class SettingsViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
         label.text = "Settings"
+        label.textColor = .black
         return label
     }()
     override func viewDidLoad() {

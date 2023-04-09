@@ -12,6 +12,7 @@ class MainMenuViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
         label.text = "Repeat-a-color"
+        label.textColor = .black
         return label
     }()
     private lazy var gameButton: UIButton = {

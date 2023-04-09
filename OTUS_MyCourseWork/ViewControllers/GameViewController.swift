@@ -13,6 +13,7 @@ class GameViewController: UIViewController {
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
+        label.textColor = .black
         label.isHidden = true
         return label
     }()

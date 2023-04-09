@@ -12,6 +12,7 @@ class TopPlayersViewController: UIViewController {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
         label.text = "Top players"
+        label.textColor = .black
         return label
     }()
     override func viewDidLoad() {
