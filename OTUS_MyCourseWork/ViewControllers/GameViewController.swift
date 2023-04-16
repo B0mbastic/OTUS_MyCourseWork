@@ -10,6 +10,8 @@ import SnapKit
 import AVFoundation
 
 class GameViewController: UIViewController {
+    private lazy var sizeConstant: Int = Int(view.frame.width * 0.7)
+    
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
@@ -17,7 +19,7 @@ class GameViewController: UIViewController {
         label.isHidden = true
         return label
     }()
-    private lazy var AllOff: UIImageView = {
+    private lazy var toyImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "allOff.png")
         image.layer.zPosition = 2
@@ -61,7 +63,7 @@ class GameViewController: UIViewController {
     }()
     private lazy var yellowButton: UIButton = {
         let button = UIButton()
-        button.tag = 2
+        button.tag = 1
         //button.backgroundColor = .yellow
         button.layer.cornerRadius = 50
         button.layer.zPosition = 5
@@ -71,7 +73,7 @@ class GameViewController: UIViewController {
     }()
     private lazy var redButton: UIButton = {
         let button = UIButton()
-        button.tag = 1
+        button.tag = 0
         //button.backgroundColor = .red
         button.layer.cornerRadius = 50
         button.layer.zPosition = 5
@@ -92,18 +94,23 @@ class GameViewController: UIViewController {
         return button
     }()
     
-    var lightQueue: [UIImageView] = []
+    //var lightQueue: [UIImageView] = []
+
+//    private lazy var lightQueue = [LampModel(id: 0, view: RedLight), LampModel(id: 1, view: YellowLight), LampModel(id: 2, view: GreenLight), LampModel(id: 3, view: OrangeLight), LampModel(id: 4, view: BlueLight), LampModel(id: 5, view: VioletLight)].shuffled()
+    private lazy var lightQueue = [LampModel(id: 0, view: RedLight), LampModel(id: 1, view: YellowLight)].shuffled()
+    
     let yellowSound = URL(fileURLWithPath: Bundle.main.path(forResource: "yellowSound", ofType: "wav")!)
     var audioPlayer = AVAudioPlayer()
     let blinkSpeed: Double = 0.5
-    var gameSize = 300
+    //var gameSize = 300
+
     var queue = OperationQueue()
-    var gameSubsequence: [Int] = [1, 2, 1]
+    var gameSubsequence: [Int] = []
     var playerSubsequence: [Int] = []
     
     
     private func setupViews() {
-        view.addSubview(AllOff)
+        view.addSubview(toyImageView)
         view.addSubview(YellowLight)
         view.addSubview(GreenLight)
         view.addSubview(VioletLight)
@@ -114,59 +121,60 @@ class GameViewController: UIViewController {
         view.addSubview(redButton)
         view.addSubview(startButton)
         view.addSubview(mainLabel)
+        
         mainLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(100)
+            make.bottom.equalTo(toyImageView.snp.top).offset(-40)
         }
         
-        AllOff.snp.makeConstraints { make in
+        toyImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(gameSize)
+            make.width.height.equalTo(sizeConstant)
         }
         GreenLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(300)
+            make.width.height.equalTo(sizeConstant)
         }
         VioletLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(300)
+            make.width.height.equalTo(sizeConstant)
         }
         YellowLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(300)
+            make.width.height.equalTo(sizeConstant)
         }
         BlueLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(300)
+            make.width.height.equalTo(sizeConstant)
         }
         OrangeLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(300)
+            make.width.height.equalTo(sizeConstant)
         }
         RedLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(300)
+            make.width.height.equalTo(sizeConstant)
         }
         yellowButton.snp.makeConstraints { make in
-            make.centerX.equalTo(AllOff.snp.centerX).offset(90)
-            make.centerY.equalTo(AllOff.snp.centerY).offset(50)
+            make.centerX.equalTo(toyImageView.snp.centerX).offset(90)
+            make.centerY.equalTo(toyImageView.snp.centerY).offset(50)
             make.width.height.equalTo(100)
         }
         redButton.snp.makeConstraints { make in
-            make.centerX.equalTo(AllOff.snp.centerX).offset(90)
-            make.centerY.equalTo(AllOff.snp.centerY).offset(-50)
+            make.centerX.equalTo(toyImageView.snp.centerX).offset(90)
+            make.centerY.equalTo(toyImageView.snp.centerY).offset(-50)
             make.width.height.equalTo(100)
         }
         startButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(AllOff.snp.centerY).offset(200)
+            make.centerY.equalTo(toyImageView.snp.centerY).offset(200)
             make.width.equalTo(150)
             make.height.equalTo(40)
         }
@@ -190,7 +198,13 @@ class GameViewController: UIViewController {
         //                }
         
         queue.maxConcurrentOperationCount = 1
-        lightQueue = [VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight]
+//        lightQueue = [VioletLight, RedLight, YellowLight, GreenLight, OrangeLight, BlueLight]
+//        lightQueue = lightQueue.shuffled()
+//
+        gameSubsequence = [0, 1, 2, 3, 4, 5]
+        
+
+
         
         
         
@@ -257,50 +271,56 @@ class GameViewController: UIViewController {
     }
     
     
+//    @objc func startGame(sender: UIButton!){
+//        playerSubsequence = []
+//        redButton.isHidden = false
+//        yellowButton.isHidden = false
+//        mainLabel.isHidden = true
+//        startButton.isHidden = true
+//    }
+    
     @objc func startGame(sender: UIButton!){
+        enum NetworkError: Error {
+            case customError
+        }
         playerSubsequence = []
         redButton.isHidden = false
         yellowButton.isHidden = false
         mainLabel.isHidden = true
         startButton.isHidden = true
+        startButton.isHidden = true
+        
+        for item in lightQueue {
+            queue.addOperation { [weak self] in
+                DispatchQueue.main.async {
+                    self?.lightLamp(lampImageView: item.view)
+                }
+
+                self?.queue.isSuspended = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    self?.queue.isSuspended = false
+                }
+            }
+        }
+        queue.addOperation {
+            DispatchQueue.main.async {
+                self.startButton.isHidden = false
+            }
+        }
     }
-//    @objc func startGame(sender: UIButton!){
-//        enum NetworkError: Error {
-//            case customError
-//        }
-//        //navigationController?.navigationBar.isHidden = true
-//        //startButton.isHidden = true
-//        //lightQueue = lightQueue.shuffled()
-//        for (index, item) in lightQueue.enumerated() {
-//            queue.addOperation { [weak self] in
-//                DispatchQueue.main.async {
-//                    self?.lightLamp(lampImageView: item)
-//                }
-//
-//                self?.queue.isSuspended = true
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                    self?.queue.isSuspended = false
-//                    if (index == self!.lightQueue.indices.last) {
-//                        //print (lightQueue.indices.last)
-//                        //self!.startButton.isHidden = false
-//                    }
-//                }
-//
-//            }
-//        }
-//    }
+    
     @objc func pressButton(sender: UIButton) {
         let tag: Int = sender.tag
         let lamp: UIImageView
         switch tag {
-        case 1: lamp = RedLight
-        case 2: lamp = YellowLight
+        case 0: lamp = RedLight
+        case 1: lamp = YellowLight
         default: return
         }
         lightLamp(lampImageView: lamp)
         playerSubsequence.append(sender.tag)
-            if isEqualArray(playerSubsequence, with: gameSubsequence) {
-                if playerSubsequence.count == gameSubsequence.count {
+            if isEqualArray(playerSubsequence, with: lightQueue) {
+                if playerSubsequence.count == lightQueue.count {
                     mainLabel.text = "YOU WIN!"
                     redButton.isHidden = true
                     yellowButton.isHidden = true
@@ -315,10 +335,10 @@ class GameViewController: UIViewController {
                 startButton.isHidden = false
             }
     }
-    func isEqualArray(_ array1: [Int], with array2: [Int]) -> Bool {
+    func isEqualArray(_ array1: [Int], with array2: [LampModel]) -> Bool {
         var isEqual: Bool = true
         for (index, item) in array1.enumerated() {
-            if item != (array2[index]) {
+            if item != (array2[index].id) {
                 isEqual = false
                 break
             }
