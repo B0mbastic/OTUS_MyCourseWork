@@ -9,6 +9,11 @@ import UIKit
 
 class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let cellID = "cellID"
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png")!)
+        return view
+    }()
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
@@ -17,12 +22,14 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         return label
     }()
     private lazy var topPlayersTableView: UITableView = {
-        let Table = UITableView(frame: view.bounds, style: .plain)
-        Table.register(TopPlayersTableCell.self, forCellReuseIdentifier: cellID)
-        Table.delegate = self
-        Table.dataSource = self
-        Table.rowHeight = 80
-        return Table
+        let table = UITableView(frame: view.bounds, style: .plain)
+        table.backgroundColor = .systemGray6
+        table.layer.cornerRadius = 20
+        table.register(TopPlayersTableCell.self, forCellReuseIdentifier: cellID)
+        table.delegate = self
+        table.dataSource = self
+        table.rowHeight = 80
+        return table
     }()
     
     struct personRecord {
@@ -37,6 +44,11 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
     
     private func setupViews() {
         view.backgroundColor = .white
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.bottom.leading.trailing.equalToSuperview()
+        }
         view.addSubview(mainLabel)
         mainLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -44,9 +56,10 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         }
         view.addSubview(topPlayersTableView)
         topPlayersTableView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
+            make.leading.equalToSuperview().offset(40)
+            make.trailing.equalToSuperview().offset(-40)
             make.top.equalTo(mainLabel.snp.bottom).offset(20)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-60)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
     override func viewDidLoad() {

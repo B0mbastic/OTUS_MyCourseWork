@@ -14,10 +14,20 @@ class GameViewController: UIViewController {
     
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
         label.textColor = .black
+        label.layer.cornerRadius = 20
+        label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
+        label.layer.zPosition = 2
         label.isHidden = true
         return label
+    }()
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png")!)
+        view.layer.zPosition = 2
+        return view
     }()
     private lazy var toyImageView: UIImageView = {
         let image = UIImageView()
@@ -124,7 +134,7 @@ class GameViewController: UIViewController {
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-        button.layer.borderWidth = 1
+        button.layer.borderWidth = 2
         button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
         button.layer.cornerRadius = 15
         button.layer.zPosition = 5
@@ -134,20 +144,28 @@ class GameViewController: UIViewController {
         return button
     }()
     
-    private lazy var lightQueue = [LampModel(id: 0, view: violetLight), LampModel(id: 1, view: redLight), LampModel(id: 2, view: yellowLight), LampModel(id: 3, view: greenLight), LampModel(id: 4, view: orangeLight), LampModel(id: 5, view: blueLight)].shuffled()
+    var audioPlayer: AVAudioPlayer!
     
+    let violetSound = URL(fileURLWithPath: Bundle.main.path(forResource: "violet", ofType: "wav")!)
+    let redSound = URL(fileURLWithPath: Bundle.main.path(forResource: "red", ofType: "wav")!)
+    let yellowSound = URL(fileURLWithPath: Bundle.main.path(forResource: "yellow", ofType: "wav")!)
+    let greenSound = URL(fileURLWithPath: Bundle.main.path(forResource: "green", ofType: "wav")!)
+    let orangeSound = URL(fileURLWithPath: Bundle.main.path(forResource: "orange", ofType: "wav")!)
+    let blueSound = URL(fileURLWithPath: Bundle.main.path(forResource: "blue", ofType: "wav")!)
     
-    let yellowSound = URL(fileURLWithPath: Bundle.main.path(forResource: "yellowSound", ofType: "wav")!)
-    var audioPlayer = AVAudioPlayer()
+    let startSound = URL(fileURLWithPath: Bundle.main.path(forResource: "start", ofType: "wav")!)
+    let lossSound = URL(fileURLWithPath: Bundle.main.path(forResource: "loss", ofType: "wav")!)
+    
     let blinkSpeed: Double = 0.5
-    //var gameSize = 300
-    
-    var queue = OperationQueue()
-    var gameSubsequence: [Int] = []
+//
     var playerSubsequence: [Int] = []
+    var lampNumber: Int = 0
+    private lazy var lightQueue = [LampModel(id: 0, view: violetLight, sound: violetSound), LampModel(id: 1, view: redLight, sound: redSound), LampModel(id: 2, view: yellowLight, sound: yellowSound), LampModel(id: 3, view: greenLight, sound: greenSound), LampModel(id: 4, view: orangeLight, sound: orangeSound), LampModel(id: 5, view: blueLight, sound: blueSound)]
+    var playerPoints: Int = 0
     
     
     private func setupViews() {
+        view.addSubview(backgroundView)
         view.addSubview(toyImageView)
         view.addSubview(violetLight)
         view.addSubview(redLight)
@@ -164,9 +182,15 @@ class GameViewController: UIViewController {
         view.addSubview(startButton)
         view.addSubview(mainLabel)
         
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.bottom.leading.trailing.equalToSuperview()
+        }
         mainLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(toyImageView.snp.top).offset(-40)
+            make.width.equalTo(200)
+            make.height.equalTo(40)
         }
         toyImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -244,13 +268,17 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        //view.backgroundColor = UIColor(patternImage: UIImage(named: "bg.png")!)
         setupViews()
-        queue.maxConcurrentOperationCount = 1
+        
+        
+        
+        
     }
     
-    func lightLamp(lampImageView: UIImageView) {
+    func lightLamp(lampImageView: UIImageView, lampSound: URL) {
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: yellowSound)
+            audioPlayer = try AVAudioPlayer(contentsOf: lampSound)
             audioPlayer.play()
         } catch {
             // couldn't load file :(
@@ -262,32 +290,43 @@ class GameViewController: UIViewController {
         }
     }
     
-    
-    //    @objc func startGame(sender: UIButton!){
-    //        playerSubsequence = []
-    //        redButton.isHidden = false
-    //        yellowButton.isHidden = false
-    //        mainLabel.isHidden = true
-    //        startButton.isHidden = true
-    //    }
-    
-    @objc func startGame(sender: UIButton!){
+    @objc func startGame(sender: UIButton!) {
         enum NetworkError: Error {
             case customError
         }
-        mainLabel.isHidden = true
+        mainLabel.isHidden = false
+        mainLabel.text = ("POINTS: \(playerPoints)")
         startButton.isHidden = true
         playerSubsequence = []
-        
-        for item in lightQueue {
+        lampNumber = 1
+        lightQueue = lightQueue.shuffled()
+        showSequence(lampNumber: 1)
+    }
+    //queue.addOperation {
+    //DispatchQueue.main.async {
+    //                do {
+    //                    audioPlayer = try AVAudioPlayer(contentsOf: startSound)
+    //                    audioPlayer.play()
+    //                } catch {
+    //                    // couldn't load file :(
+    //                }
+    //}
+    //}
+    
+    func showSequence(lampNumber: Int) {
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+        for (index, item) in lightQueue.enumerated() {
+            if index >= lampNumber {
+                break
+            }
             queue.addOperation { [weak self] in
                 DispatchQueue.main.async {
-                    self?.lightLamp(lampImageView: item.view)
+                    self?.lightLamp(lampImageView: item.view, lampSound: item.sound)
                 }
-                
-                self?.queue.isSuspended = true
+                queue.isSuspended = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                    self?.queue.isSuspended = false
+                    queue.isSuspended = false
                 }
             }
         }
@@ -301,37 +340,75 @@ class GameViewController: UIViewController {
     @objc func pressButton(sender: UIButton) {
         let tag: Int = sender.tag
         let lamp: UIImageView
+        let sound: URL
         switch tag {
-        case 0: lamp = violetLight
-        case 1: lamp = redLight
-        case 2: lamp = yellowLight
-        case 3: lamp = greenLight
-        case 4: lamp = orangeLight
-        case 5: lamp = blueLight
+        case 0:
+            lamp = violetLight
+            sound = violetSound
+        case 1:
+            lamp = redLight
+            sound = redSound
+        case 2:
+            lamp = yellowLight
+            sound = yellowSound
+        case 3:
+            lamp = greenLight
+            sound = greenSound
+        case 4:
+            lamp = orangeLight
+            sound = orangeSound
+        case 5:
+            lamp = blueLight
+            sound = blueSound
         default: return
         }
-        lightLamp(lampImageView: lamp)
+        lightLamp(lampImageView: lamp, lampSound: sound)
         playerSubsequence.append(sender.tag)
         if isEqualArray(playerSubsequence, with: lightQueue) {
-            if playerSubsequence.count == lightQueue.count {
-                mainLabel.text = "YOU WIN!"
+            if playerSubsequence.count == lampNumber {
                 hideButtons()
+                if lampNumber == lightQueue.count {
+                    startButton.isHidden = false
+                    mainLabel.text = "YOU WIN!"
+                    playerPoints = 0
+                }
+                else {
+                    playerPoints += 10
+                    mainLabel.text = ("POINTS: \(playerPoints)")
+                    lampNumber += 1
+                    playerSubsequence = []
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        self.showSequence(lampNumber: self.lampNumber)
+                    }
+                }
             }
         } else {
             hideButtons()
+            mainLabel.isHidden = false
+            playerPoints = 0
             mainLabel.text = "YOU LOOSE!"
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: lossSound)
+                audioPlayer.play()
+            } catch {
+                // couldn't load file :(
+            }
+            startButton.isHidden = false
         }
     }
     func isEqualArray(_ array1: [Int], with array2: [LampModel]) -> Bool {
         var isEqual: Bool = true
         for (index, item) in array1.enumerated() {
+            if index >= lampNumber {
+                break
+            }
             if item != (array2[index].id) {
                 isEqual = false
                 break
             }
         }
         return isEqual
-        //return Set(array1).intersection(array2).count == 0 ? false : true
     }
     func hideButtons() {
         redButton.isHidden = true
@@ -340,8 +417,6 @@ class GameViewController: UIViewController {
         orangeButton.isHidden = true
         blueButton.isHidden = true
         violetButton.isHidden = true
-        mainLabel.isHidden = false
-        startButton.isHidden = false
     }
     func showButtons() {
         redButton.isHidden = false
@@ -350,8 +425,6 @@ class GameViewController: UIViewController {
         orangeButton.isHidden = false
         blueButton.isHidden = false
         violetButton.isHidden = false
-        mainLabel.isHidden = true
-        startButton.isHidden = true
     }
 }
 

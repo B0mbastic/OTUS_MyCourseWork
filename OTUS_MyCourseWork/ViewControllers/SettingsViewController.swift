@@ -8,6 +8,11 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
+    private lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png")!)
+        return view
+    }()
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
@@ -21,6 +26,11 @@ class SettingsViewController: UIViewController {
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "custom-back")
         
         view.backgroundColor = .white
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.bottom.leading.trailing.equalToSuperview()
+        }
         view.addSubview(mainLabel)
         mainLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
