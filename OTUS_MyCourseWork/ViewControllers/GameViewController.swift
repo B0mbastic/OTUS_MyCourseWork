@@ -23,6 +23,17 @@ class GameViewController: UIViewController {
         label.isHidden = true
         return label
     }()
+    private lazy var gameLevelLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 30.0)
+        label.textColor = .black
+        label.layer.cornerRadius = 20
+        label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
+        label.layer.zPosition = 2
+        label.isHidden = true
+        return label
+    }()
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png")!)
@@ -155,13 +166,15 @@ class GameViewController: UIViewController {
     
     let startSound = URL(fileURLWithPath: Bundle.main.path(forResource: "start", ofType: "wav")!)
     let lossSound = URL(fileURLWithPath: Bundle.main.path(forResource: "loss", ofType: "wav")!)
+    let winSound = URL(fileURLWithPath: Bundle.main.path(forResource: "win", ofType: "wav")!)
     
     let blinkSpeed: Double = 0.5
 //
     var playerSubsequence: [Int] = []
     var lampNumber: Int = 0
-    private lazy var lightQueue = [LampModel(id: 0, view: violetLight, sound: violetSound), LampModel(id: 1, view: redLight, sound: redSound), LampModel(id: 2, view: yellowLight, sound: yellowSound), LampModel(id: 3, view: greenLight, sound: greenSound), LampModel(id: 4, view: orangeLight, sound: orangeSound), LampModel(id: 5, view: blueLight, sound: blueSound)]
+    private lazy var lightQueue = [LampModel(id: 0, view: violetLight, sound: violetSound), LampModel(id: 1, view: redLight, sound: redSound), LampModel(id: 2, view: yellowLight, sound: yellowSound), LampModel(id: 3, view: greenLight, sound: greenSound)] //, LampModel(id: 4, view: orangeLight, sound: orangeSound), LampModel(id: 5, view: blueLight, sound: blueSound)]
     var playerPoints: Int = 0
+    var gameLevel: Int = 1
     
     
     private func setupViews() {
@@ -181,6 +194,7 @@ class GameViewController: UIViewController {
         view.addSubview(blueButton)
         view.addSubview(startButton)
         view.addSubview(mainLabel)
+        view.addSubview(gameLevelLabel)
         
         backgroundView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -188,10 +202,18 @@ class GameViewController: UIViewController {
         }
         mainLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.bottom.equalTo(gameLevelLabel.snp.top).offset(-40)
+            make.width.equalTo(200)
+            make.height.equalTo(40)
+        }
+        
+        gameLevelLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
             make.bottom.equalTo(toyImageView.snp.top).offset(-40)
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
+        
         toyImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -295,7 +317,9 @@ class GameViewController: UIViewController {
             case customError
         }
         mainLabel.isHidden = false
-        mainLabel.text = ("POINTS: \(playerPoints)")
+        mainLabel.text = "POINTS: \(playerPoints)"
+        gameLevelLabel.isHidden = false
+        gameLevelLabel.text = "LEVEL: \(gameLevel)"
         startButton.isHidden = true
         playerSubsequence = []
         lampNumber = 1
@@ -325,7 +349,7 @@ class GameViewController: UIViewController {
                     self?.lightLamp(lampImageView: item.view, lampSound: item.sound)
                 }
                 queue.isSuspended = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     queue.isSuspended = false
                 }
             }
@@ -369,8 +393,18 @@ class GameViewController: UIViewController {
                 hideButtons()
                 if lampNumber == lightQueue.count {
                     startButton.isHidden = false
-                    mainLabel.text = "YOU WIN!"
-                    playerPoints = 0
+                    gameLevel+=1
+                    let gameResultsController = GameResultsViewController()
+                    gameResultsController.isModalInPresentation = true
+                    gameResultsController.showGameResult(didWin: true, playerPoints: playerPoints)
+                    navigationController?.present(gameResultsController, animated: true)
+                    //mainLabel.text = "YOU WIN!"
+                    do {
+                        audioPlayer = try AVAudioPlayer(contentsOf: winSound)
+                        audioPlayer.play()
+                    } catch {
+                        //couldn't load file :(
+                    }
                 }
                 else {
                     playerPoints += 10
@@ -384,15 +418,20 @@ class GameViewController: UIViewController {
                 }
             }
         } else {
+            let gameResultsController = GameResultsViewController()
+            gameResultsController.isModalInPresentation = true
+            gameResultsController.showGameResult(didWin: false, playerPoints: playerPoints)
+            navigationController?.present(gameResultsController, animated: true)
+            
             hideButtons()
-            mainLabel.isHidden = false
             playerPoints = 0
-            mainLabel.text = "YOU LOOSE!"
+            gameLevel = 1
+            //mainLabel.text = "YOU LOOSE!"
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: lossSound)
                 audioPlayer.play()
             } catch {
-                // couldn't load file :(
+                //couldn't load file :(
             }
             startButton.isHidden = false
         }

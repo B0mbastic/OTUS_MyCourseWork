@@ -36,6 +36,5 @@ class SettingsViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(100)
         }
-        
     }
 }
