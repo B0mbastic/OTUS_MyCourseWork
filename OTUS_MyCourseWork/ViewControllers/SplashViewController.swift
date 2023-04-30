@@ -141,7 +141,7 @@ class SplashViewController: UIViewController {
         
         operationQueue.isSuspended = true
         lightQueue.forEach { item in
-            let operation = LightOperation(view: item.view, duration: 0.1, delay: 0.2, sound: nil)
+            let operation = LightOperation(view: item.view, duration: 0, delay: 0.1, sound: nil)
             operationQueue.addOperation(operation)
         }
         operationQueue.addOperation {

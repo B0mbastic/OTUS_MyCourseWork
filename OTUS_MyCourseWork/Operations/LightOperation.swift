@@ -15,7 +15,7 @@ class LightOperation: AsyncOperation {
     let delay: TimeInterval
     let sound: String?
     
-    init(view: UIView? = nil, duration: TimeInterval, delay: TimeInterval, sound: String? = nil) {
+    init(view: UIView? = nil, duration: TimeInterval, delay: TimeInterval, sound: String?) {
         self.view = view
         self.duration = duration
         self.delay = delay

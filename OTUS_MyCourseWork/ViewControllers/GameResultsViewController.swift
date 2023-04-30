@@ -128,7 +128,10 @@ class GameResultsViewController: UIViewController {
 
     }
     @objc func playGame(sender: UIButton!){
-        self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let gameController = GameViewController()
+            self.navigationController?.setViewControllers([gameController], animated: true)
+        }
     }
     @objc func exitGame(sender: UIButton!){
         //self.dismiss(animated: true, completion: nil)

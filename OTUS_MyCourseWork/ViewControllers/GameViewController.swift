@@ -41,7 +41,7 @@ class GameViewController: UIViewController {
             view: blueLight,
             sound: "blue.wav")]
     
-    var gameSequence: [Int] = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
+    var gameSequence: [Int] = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(1))
     
     
     
@@ -208,21 +208,6 @@ class GameViewController: UIViewController {
         return button
     }()
     
-    
-    //    let violetSound = URL(fileURLWithPath: Bundle.main.path(forResource: "violet", ofType: "wav")!)
-    //    let redSound = URL(fileURLWithPath: Bundle.main.path(forResource: "red", ofType: "wav")!)
-    //    let yellowSound = URL(fileURLWithPath: Bundle.main.path(forResource: "yellow", ofType: "wav")!)
-    //    let greenSound = URL(fileURLWithPath: Bundle.main.path(forResource: "green", ofType: "wav")!)
-    //    let orangeSound = URL(fileURLWithPath: Bundle.main.path(forResource: "orange", ofType: "wav")!)
-    //    let blueSound = URL(fileURLWithPath: Bundle.main.path(forResource: "blue", ofType: "wav")!)
-    //
-    //    let startSound = URL(fileURLWithPath: Bundle.main.path(forResource: "start", ofType: "wav")!)
-    //    let lossSound = URL(fileURLWithPath: Bundle.main.path(forResource: "loss", ofType: "wav")!)
-    //    let winSound = URL(fileURLWithPath: Bundle.main.path(forResource: "win", ofType: "wav")!)
-    
-    
-    
-    
     private func setupViews() {
         view.addSubview(backgroundView)
         view.addSubview(toyImageView)
@@ -335,19 +320,8 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        // navigationController?.navigationBar.isHidden = false
-        //view.backgroundColor = UIColor(patternImage: UIImage(named: "bg.png")!)
         setupViews()
-        
     }
-    
-    //    func lightLamp(lampImageView: UIImageView, lampSound: String) {
-    //        lampImageView.alpha = 1.0
-    //        DispatchQueue.main.asyncAfter(deadline: .now() + blinkSpeed) {
-    //            lampImageView.alpha = 0
-    //        }
-    //        audioPlayer.playSound(soundFileName: lampSound)
-    //    }
     
     @objc func startGame(sender: UIButton!) {
         enum NetworkError: Error {
@@ -361,95 +335,72 @@ class GameViewController: UIViewController {
         playerSequence = []
         lampNumber = 1
         gameSequence = gameSequence.shuffled()
-        showSequence(sequence: gameSequence, lampNumber: 1, duration: 0, delay: 0.4, type: "blink")
+        operationQueue.maxConcurrentOperationCount = 1
+        showSequence(sequence: gameSequence, lampNumber: 1, delayOn: 0, delayOff: 0.3, sound: true)
+        operationQueue.addOperation {
+            DispatchQueue.main.async {
+                self.showButtons()
+            }
+        }
+        
     }
     
-    func showSequence(sequence: [Int], lampNumber: Int, duration: TimeInterval, delay: TimeInterval, type: String) {
-        operationQueue.maxConcurrentOperationCount = 1
+    func showSequence(sequence: [Int], lampNumber: Int, delayOn: TimeInterval?, delayOff: TimeInterval?, sound: Bool) {
         operationQueue.isSuspended = true
         for (index, item) in sequence.enumerated() {
             if index >= lampNumber {
                 break
             }
             let lampImageView = lamps[item].view
-            let lampSound = lamps[item].sound
-            var operation: AsyncOperation
-            switch type {
-//            case "blink":
-//                operation = BlinkOperation(view: lampImageView, sound: lampSound, delayOn: delayOn, delayOff: delayOff)
-            case "lighton":
-                operation = LightOperation(view: lampImageView, duration: duration, delay: delay, sound: lampSound)
-                operationQueue.addOperation(operation)
-            case "lightoff":
-                operation = LightOffOperation(view: lampImageView, duration: duration, delay: delay)
-                operationQueue.addOperation(operation)
-            case "blink":
-                operation = LightOperation(view: lampImageView, duration: duration, delay: delay, sound: lampSound)
-                operationQueue.addOperation(operation)
-                operation = LightOffOperation(view: lampImageView, duration: duration, delay: delay)
-                operationQueue.addOperation(operation)
-            default:
-                operation = LightOperation(view: lampImageView, duration: duration, delay: delay, sound: lampSound)
-                operationQueue.addOperation(operation)
-                //operation = BlinkOperation(view: lampImageView, sound: lampSound, delayOn: 0, delayOff: delay)
+            var lampSound: String? = nil
+            if sound {
+                lampSound = lamps[item].sound
             }
-            
-            //            queue.addOperation { [weak self] in
-            //                DispatchQueue.main.async {
-            //
-            //                    self?.lightLamp(lampImageView: item.view, lampSound: item.sound)
-            //                }
-            //                queue.isSuspended = true
-            //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            //                    queue.isSuspended = false
-            //                }
-            //            }
-        }
-        
-        operationQueue.addOperation {
-            DispatchQueue.main.async {
-                self.showButtons()
-            }
+            let operation = LampOperation(view: lampImageView, sound: lampSound, delayOn: delayOn, delayOff: delayOff)
+            operationQueue.addOperation(operation)
         }
         operationQueue.isSuspended = false
     }
     
     @objc func pressButton(sender: UIButton) {
         let buttonTag: Int = sender.tag
-        
-        //lightLamp(lampImageView: lampImageView, lampSound: lampSound)
-        //operationQueue.maxConcurrentOperationCount = 6
-        //let operation = BlinkOperation(view: lampImageView, sound: lampSound, delayOn: 0, delayOff: 0.4)
+        //let lampImageView = lamps[buttonTag].view
+        //let lampSound = lamps[buttonTag].sound
+        operationQueue.maxConcurrentOperationCount = lampNumber + 1
+        //let operation = LampOperation(view: lampImageView, sound: lampSound, delayOn: 0, delayOff: 0.4)
         //operationQueue.addOperation(operation)
-        showSequence(sequence: [buttonTag], lampNumber: 1, duration: 0.1, delay: 0, type: "blink")
-        //            queue.addOperation { [weak self] in
-        //                DispatchQueue.main.async {
-        //
-        //                    self?.lightLamp(lampImageView: item.view, lampSound: item.sound)
-        //                }
-        //                queue.isSuspended = true
-        //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-        //                    queue.isSuspended = false
-        //                }
-        //            }
-        
+        //operationQueue.maxConcurrentOperationCount = 1
+        showSequence(sequence: [buttonTag], lampNumber: 1, delayOn: 0, delayOff: 0.4, sound: true)
         playerSequence.append(buttonTag)
         if isEqualArray(playerSequence, with: gameSequence) {
             if playerSequence.count == lampNumber {
-                hideButtons()
+                operationQueue.addOperation {
+                    DispatchQueue.main.async {
+                        self.hideButtons()
+                    }
+                }
                 if lampNumber == gameSequence.count {
-                    startButton.isHidden = false
-                    gameLevel+=1
-                    let rnd: Int = Int.random(in: 0...5)
-                    print (rnd)
-                    gameSequence.append(rnd)
+                    gameLevel += 1
+                    gameSequence.append(Int.random(in: 0...5))
                     gameLevelLabel.text = ("LEVEL: \(gameLevel)")
-                    let gameResultsController = GameResultsViewController()
-                    gameResultsController.isModalInPresentation = true
-                    gameResultsController.showGameResult(didWin: true, playerPoints: playerPoints)
-                    navigationController?.present(gameResultsController, animated: true)
-                    //mainLabel.text = "YOU WIN!"
-                    audioPlayer.playSound(soundFileName: "win.wav")
+                    //                    let gameResultsController = GameResultsViewController()
+                    //                    gameResultsController.isModalInPresentation = true
+                    //                    gameResultsController.showGameResult(didWin: true, playerPoints: playerPoints)
+                    //navigationController?.present(gameResultsController, animated: true)
+                    mainLabel.text = "YOU WIN!"
+                    
+                    self.operationQueue.maxConcurrentOperationCount = 5
+                    self.operationQueue.addOperation {
+                        self.audioPlayer.playSound(soundFileName: "win.wav")
+                    }
+                    showSequence(sequence: [0, 2, 4], lampNumber: 6, delayOn: 1, delayOff: 0.7, sound: false)
+//                    self.operationQueue.maxConcurrentOperationCount = 3
+//                    showSequence(sequence: [1, 3, 5, 0, 2, 4], lampNumber: 6, delayOn: 0, delayOff: 0.5, sound: false)
+                    self.operationQueue.addOperation {
+                        DispatchQueue.main.async {
+                            self.startButton.isHidden = false
+                        }
+                    }
                 }
                 else {
                     playerPoints += 10
@@ -458,40 +409,41 @@ class GameViewController: UIViewController {
                     playerSequence = []
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        self.showSequence(sequence: self.gameSequence, lampNumber: self.lampNumber, duration: 0.1, delay: 0.1, type: "blink")
+                        self.operationQueue.maxConcurrentOperationCount = 1
+                        self.showSequence(sequence: self.gameSequence, lampNumber: self.lampNumber, delayOn: 0, delayOff: 0.4, sound: true)
+                        self.operationQueue.addOperation {
+                            DispatchQueue.main.async {
+                                self.showButtons()
+                            }
+                        }
                     }
                 }
             }
         } else {
-            //let gameResultsController = GameResultsViewController()
-            //            gameResultsController.isModalInPresentation = true
-            //            gameResultsController.showGameResult(didWin: false, playerPoints: playerPoints)
-            //            UIView.animate(withDuration: 2) {
-            //                gameResultsController.highScoreImageView.alpha = 1
-            //            }
-            // navigationController?.present(gameResultsController, animated: true)
-            //let mainMenuController = MainMenuViewController()
-            //self.navigationController?.setViewControllers([gameResultsController], animated: true)
-            //navigationController?.pushViewController(gameResultsController, animated: false)
-            
-            hideButtons()
+            operationQueue.addOperation {
+                DispatchQueue.main.async {
+                    self.hideButtons()
+                }
+            }
             playerPoints = 0
             gameLevel = 1
-            //gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
-            //mainLabel.text = "YOU LOOSE!"
+            gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
+            mainLabel.text = "YOU LOOSE!"
             audioPlayer.playSound(soundFileName: "loss.wav")
-            showSequence(sequence: [0, 1, 2, 3, 4, 5], lampNumber: 6, duration: 0, delay: 0.3, type: "light")
-            showSequence(sequence: [5, 4, 3, 2, 1, 0], lampNumber: 6, duration: 0, delay: 0.3, type: "lightoff")
+            operationQueue.maxConcurrentOperationCount = 1
+            showSequence(sequence: [0, 1, 2, 3, 4, 5], lampNumber: 6, delayOn: 0.3, delayOff: nil, sound: false)
+            showSequence(sequence: [5, 4, 3, 2, 1, 0], lampNumber: 6, delayOn: nil, delayOff: 0.3, sound: false)
             operationQueue.addOperation {
                 DispatchQueue.main.async {
                     let gameResultsController = GameResultsViewController()
                     self.navigationController?.setViewControllers([gameResultsController], animated: true)
                 }
-
+                
             }
             //startButton.isHidden = false
         }
     }
+    
     func isEqualArray(_ array1: [Int], with array2: [Int]) -> Bool {
         var isEqual: Bool = true
         for (index, item) in array1.enumerated() {

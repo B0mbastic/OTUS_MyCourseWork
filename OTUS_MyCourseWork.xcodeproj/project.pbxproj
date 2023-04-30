@@ -28,6 +28,7 @@
 		D2AC610229F82EB2006ADCE9 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AC610129F82EB2006ADCE9 /* UserDefaultsManager.swift */; };
 		D2AC610429F83A78006ADCE9 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AC610329F83A78006ADCE9 /* AudioPlayer.swift */; };
 		D2ACCAB329FE4FDC008DC429 /* LightOffOpetration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ACCAB229FE4FDC008DC429 /* LightOffOpetration.swift */; };
+		D2ACCAB529FE8E6E008DC429 /* LampOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ACCAB429FE8E6E008DC429 /* LampOperation.swift */; };
 		D2B0DFDC29E9CF8700A53798 /* TopPlayersTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B0DFDB29E9CF8700A53798 /* TopPlayersTableCell.swift */; };
 		D2B3070529ED5A370051360B /* orange.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070229ED5A370051360B /* orange.wav */; };
 		D2B3070629ED5A370051360B /* violet.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070329ED5A370051360B /* violet.wav */; };
@@ -63,6 +64,7 @@
 		D2AC610129F82EB2006ADCE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		D2AC610329F83A78006ADCE9 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		D2ACCAB229FE4FDC008DC429 /* LightOffOpetration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightOffOpetration.swift; sourceTree = "<group>"; };
+		D2ACCAB429FE8E6E008DC429 /* LampOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LampOperation.swift; sourceTree = "<group>"; };
 		D2B0DFDB29E9CF8700A53798 /* TopPlayersTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPlayersTableCell.swift; sourceTree = "<group>"; };
 		D2B3070229ED5A370051360B /* orange.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = orange.wav; sourceTree = "<group>"; };
 		D2B3070329ED5A370051360B /* violet.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = violet.wav; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				D2AA08E529FD423300F88DE7 /* BlinkOperation.swift */,
 				D2AA08E729FD4A3400F88DE7 /* LightOperation.swift */,
 				D2ACCAB229FE4FDC008DC429 /* LightOffOpetration.swift */,
+				D2ACCAB429FE8E6E008DC429 /* LampOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 			files = (
 				D2AA08E629FD423300F88DE7 /* BlinkOperation.swift in Sources */,
 				D2AAFBD529AD1A4400864504 /* GameViewController.swift in Sources */,
+				D2ACCAB529FE8E6E008DC429 /* LampOperation.swift in Sources */,
 				D2A36BCF29EC7D6F00F413A7 /* LampModel.swift in Sources */,
 				D2AAFBD129AD1A4400864504 /* AppDelegate.swift in Sources */,
 				D28E60DF29E2802400C94D6B /* SplashViewController.swift in Sources */,
