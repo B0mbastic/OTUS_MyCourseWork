@@ -10,8 +10,55 @@ import SnapKit
 import AVFoundation
 
 class GameViewController: UIViewController {
+    let blinkSpeed: Double = 0.5
+    //
+    var playerSequence: [Int] = []
+    var lampNumber: Int = 0
+    
+    private lazy var lamps = [
+        LampModel(
+            id: 0,
+            view: violetLight,
+            sound: "violet.wav"),
+        LampModel(
+            id: 1,
+            view: redLight,
+            sound: "red.wav"),
+        LampModel(
+            id: 2,
+            view: yellowLight,
+            sound: "yellow.wav"),
+        LampModel(
+            id: 3,
+            view: greenLight,
+            sound: "green.wav"),
+        LampModel(
+            id: 4,
+            view: orangeLight,
+            sound: "orange.wav"),
+        LampModel(
+            id: 5,
+            view: blueLight,
+            sound: "blue.wav")]
+    
+    var gameSequence: [Int] = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
+    
+    
+    
+    var playerPoints: Int = 0
+    var gameLevel: Int = 1
+    var isAudioOn = UserDefaultsManager.isAudioOn
+    
+    private var audioPlayer = AudioPlayer()
     private lazy var sizeConstant: CGFloat = view.frame.width * 0.7
     
+    var operationQueue = OperationQueue()
+    
+    //    var operationQueue: OperationQueue = {
+    //        let operationQueue = OperationQueue()
+    //        operationQueue.maxConcurrentOperationCount = 1
+    //        return operationQueue
+    //    }()
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -49,37 +96,43 @@ class GameViewController: UIViewController {
     private lazy var yellowLight: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "yellowOn.png")
-        image.layer.zPosition = 1
+        image.layer.zPosition = 3
+        image.alpha = 0
         return image
     }()
     private lazy var greenLight: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "greenOn.png")
-        image.layer.zPosition = 1
+        image.layer.zPosition = 3
+        image.alpha = 0
         return image
     }()
     private lazy var violetLight: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "violetOn.png")
-        image.layer.zPosition = 1
+        image.layer.zPosition = 3
+        image.alpha = 0
         return image
     }()
     private lazy var blueLight: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "blueOn.png")
-        image.layer.zPosition = 1
+        image.layer.zPosition = 3
+        image.alpha = 0
         return image
     }()
     private lazy var orangeLight: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "orangeOn.png")
-        image.layer.zPosition = 1
+        image.layer.zPosition = 3
+        image.alpha = 0
         return image
     }()
     private lazy var redLight: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "redOn.png")
-        image.layer.zPosition = 1
+        image.layer.zPosition = 3
+        image.alpha = 0
         return image
     }()
     private lazy var violetButton: UIButton = {
@@ -155,26 +208,19 @@ class GameViewController: UIViewController {
         return button
     }()
     
-    var audioPlayer: AVAudioPlayer!
     
-    let violetSound = URL(fileURLWithPath: Bundle.main.path(forResource: "violet", ofType: "wav")!)
-    let redSound = URL(fileURLWithPath: Bundle.main.path(forResource: "red", ofType: "wav")!)
-    let yellowSound = URL(fileURLWithPath: Bundle.main.path(forResource: "yellow", ofType: "wav")!)
-    let greenSound = URL(fileURLWithPath: Bundle.main.path(forResource: "green", ofType: "wav")!)
-    let orangeSound = URL(fileURLWithPath: Bundle.main.path(forResource: "orange", ofType: "wav")!)
-    let blueSound = URL(fileURLWithPath: Bundle.main.path(forResource: "blue", ofType: "wav")!)
+    //    let violetSound = URL(fileURLWithPath: Bundle.main.path(forResource: "violet", ofType: "wav")!)
+    //    let redSound = URL(fileURLWithPath: Bundle.main.path(forResource: "red", ofType: "wav")!)
+    //    let yellowSound = URL(fileURLWithPath: Bundle.main.path(forResource: "yellow", ofType: "wav")!)
+    //    let greenSound = URL(fileURLWithPath: Bundle.main.path(forResource: "green", ofType: "wav")!)
+    //    let orangeSound = URL(fileURLWithPath: Bundle.main.path(forResource: "orange", ofType: "wav")!)
+    //    let blueSound = URL(fileURLWithPath: Bundle.main.path(forResource: "blue", ofType: "wav")!)
+    //
+    //    let startSound = URL(fileURLWithPath: Bundle.main.path(forResource: "start", ofType: "wav")!)
+    //    let lossSound = URL(fileURLWithPath: Bundle.main.path(forResource: "loss", ofType: "wav")!)
+    //    let winSound = URL(fileURLWithPath: Bundle.main.path(forResource: "win", ofType: "wav")!)
     
-    let startSound = URL(fileURLWithPath: Bundle.main.path(forResource: "start", ofType: "wav")!)
-    let lossSound = URL(fileURLWithPath: Bundle.main.path(forResource: "loss", ofType: "wav")!)
-    let winSound = URL(fileURLWithPath: Bundle.main.path(forResource: "win", ofType: "wav")!)
     
-    let blinkSpeed: Double = 0.5
-//
-    var playerSubsequence: [Int] = []
-    var lampNumber: Int = 0
-    private lazy var lightQueue = [LampModel(id: 0, view: violetLight, sound: violetSound), LampModel(id: 1, view: redLight, sound: redSound), LampModel(id: 2, view: yellowLight, sound: yellowSound), LampModel(id: 3, view: greenLight, sound: greenSound)] //, LampModel(id: 4, view: orangeLight, sound: orangeSound), LampModel(id: 5, view: blueLight, sound: blueSound)]
-    var playerPoints: Int = 0
-    var gameLevel: Int = 1
     
     
     private func setupViews() {
@@ -213,7 +259,6 @@ class GameViewController: UIViewController {
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
-        
         toyImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -281,7 +326,7 @@ class GameViewController: UIViewController {
         }
         startButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(toyImageView.snp.centerY).offset(200)
+            make.top.equalTo(toyImageView.snp.bottom).offset(40)
             make.width.equalTo(150)
             make.height.equalTo(40)
         }
@@ -290,27 +335,19 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        // navigationController?.navigationBar.isHidden = false
         //view.backgroundColor = UIColor(patternImage: UIImage(named: "bg.png")!)
         setupViews()
         
-        
-        
-        
     }
     
-    func lightLamp(lampImageView: UIImageView, lampSound: URL) {
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: lampSound)
-            audioPlayer.play()
-        } catch {
-            // couldn't load file :(
-        }
-        
-        lampImageView.layer.zPosition = 3
-        DispatchQueue.main.asyncAfter(deadline: .now() + blinkSpeed) {
-            lampImageView.layer.zPosition = 1
-        }
-    }
+    //    func lightLamp(lampImageView: UIImageView, lampSound: String) {
+    //        lampImageView.alpha = 1.0
+    //        DispatchQueue.main.asyncAfter(deadline: .now() + blinkSpeed) {
+    //            lampImageView.alpha = 0
+    //        }
+    //        audioPlayer.playSound(soundFileName: lampSound)
+    //    }
     
     @objc func startGame(sender: UIButton!) {
         enum NetworkError: Error {
@@ -321,128 +358,147 @@ class GameViewController: UIViewController {
         gameLevelLabel.isHidden = false
         gameLevelLabel.text = "LEVEL: \(gameLevel)"
         startButton.isHidden = true
-        playerSubsequence = []
+        playerSequence = []
         lampNumber = 1
-        lightQueue = lightQueue.shuffled()
-        showSequence(lampNumber: 1)
+        gameSequence = gameSequence.shuffled()
+        showSequence(sequence: gameSequence, lampNumber: 1, duration: 0, delay: 0.4, type: "blink")
     }
-    //queue.addOperation {
-    //DispatchQueue.main.async {
-    //                do {
-    //                    audioPlayer = try AVAudioPlayer(contentsOf: startSound)
-    //                    audioPlayer.play()
-    //                } catch {
-    //                    // couldn't load file :(
-    //                }
-    //}
-    //}
     
-    func showSequence(lampNumber: Int) {
-        let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 1
-        for (index, item) in lightQueue.enumerated() {
+    func showSequence(sequence: [Int], lampNumber: Int, duration: TimeInterval, delay: TimeInterval, type: String) {
+        operationQueue.maxConcurrentOperationCount = 1
+        operationQueue.isSuspended = true
+        for (index, item) in sequence.enumerated() {
             if index >= lampNumber {
                 break
             }
-            queue.addOperation { [weak self] in
-                DispatchQueue.main.async {
-                    self?.lightLamp(lampImageView: item.view, lampSound: item.sound)
-                }
-                queue.isSuspended = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    queue.isSuspended = false
-                }
+            let lampImageView = lamps[item].view
+            let lampSound = lamps[item].sound
+            var operation: AsyncOperation
+            switch type {
+//            case "blink":
+//                operation = BlinkOperation(view: lampImageView, sound: lampSound, delayOn: delayOn, delayOff: delayOff)
+            case "lighton":
+                operation = LightOperation(view: lampImageView, duration: duration, delay: delay, sound: lampSound)
+                operationQueue.addOperation(operation)
+            case "lightoff":
+                operation = LightOffOperation(view: lampImageView, duration: duration, delay: delay)
+                operationQueue.addOperation(operation)
+            case "blink":
+                operation = LightOperation(view: lampImageView, duration: duration, delay: delay, sound: lampSound)
+                operationQueue.addOperation(operation)
+                operation = LightOffOperation(view: lampImageView, duration: duration, delay: delay)
+                operationQueue.addOperation(operation)
+            default:
+                operation = LightOperation(view: lampImageView, duration: duration, delay: delay, sound: lampSound)
+                operationQueue.addOperation(operation)
+                //operation = BlinkOperation(view: lampImageView, sound: lampSound, delayOn: 0, delayOff: delay)
             }
+            
+            //            queue.addOperation { [weak self] in
+            //                DispatchQueue.main.async {
+            //
+            //                    self?.lightLamp(lampImageView: item.view, lampSound: item.sound)
+            //                }
+            //                queue.isSuspended = true
+            //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            //                    queue.isSuspended = false
+            //                }
+            //            }
         }
-        queue.addOperation {
+        
+        operationQueue.addOperation {
             DispatchQueue.main.async {
                 self.showButtons()
             }
         }
+        operationQueue.isSuspended = false
     }
     
     @objc func pressButton(sender: UIButton) {
-        let tag: Int = sender.tag
-        let lamp: UIImageView
-        let sound: URL
-        switch tag {
-        case 0:
-            lamp = violetLight
-            sound = violetSound
-        case 1:
-            lamp = redLight
-            sound = redSound
-        case 2:
-            lamp = yellowLight
-            sound = yellowSound
-        case 3:
-            lamp = greenLight
-            sound = greenSound
-        case 4:
-            lamp = orangeLight
-            sound = orangeSound
-        case 5:
-            lamp = blueLight
-            sound = blueSound
-        default: return
-        }
-        lightLamp(lampImageView: lamp, lampSound: sound)
-        playerSubsequence.append(sender.tag)
-        if isEqualArray(playerSubsequence, with: lightQueue) {
-            if playerSubsequence.count == lampNumber {
+        let buttonTag: Int = sender.tag
+        
+        //lightLamp(lampImageView: lampImageView, lampSound: lampSound)
+        //operationQueue.maxConcurrentOperationCount = 6
+        //let operation = BlinkOperation(view: lampImageView, sound: lampSound, delayOn: 0, delayOff: 0.4)
+        //operationQueue.addOperation(operation)
+        showSequence(sequence: [buttonTag], lampNumber: 1, duration: 0.1, delay: 0, type: "blink")
+        //            queue.addOperation { [weak self] in
+        //                DispatchQueue.main.async {
+        //
+        //                    self?.lightLamp(lampImageView: item.view, lampSound: item.sound)
+        //                }
+        //                queue.isSuspended = true
+        //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+        //                    queue.isSuspended = false
+        //                }
+        //            }
+        
+        playerSequence.append(buttonTag)
+        if isEqualArray(playerSequence, with: gameSequence) {
+            if playerSequence.count == lampNumber {
                 hideButtons()
-                if lampNumber == lightQueue.count {
+                if lampNumber == gameSequence.count {
                     startButton.isHidden = false
                     gameLevel+=1
+                    let rnd: Int = Int.random(in: 0...5)
+                    print (rnd)
+                    gameSequence.append(rnd)
+                    gameLevelLabel.text = ("LEVEL: \(gameLevel)")
                     let gameResultsController = GameResultsViewController()
                     gameResultsController.isModalInPresentation = true
                     gameResultsController.showGameResult(didWin: true, playerPoints: playerPoints)
                     navigationController?.present(gameResultsController, animated: true)
                     //mainLabel.text = "YOU WIN!"
-                    do {
-                        audioPlayer = try AVAudioPlayer(contentsOf: winSound)
-                        audioPlayer.play()
-                    } catch {
-                        //couldn't load file :(
-                    }
+                    audioPlayer.playSound(soundFileName: "win.wav")
                 }
                 else {
                     playerPoints += 10
                     mainLabel.text = ("POINTS: \(playerPoints)")
                     lampNumber += 1
-                    playerSubsequence = []
+                    playerSequence = []
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        self.showSequence(lampNumber: self.lampNumber)
+                        self.showSequence(sequence: self.gameSequence, lampNumber: self.lampNumber, duration: 0.1, delay: 0.1, type: "blink")
                     }
                 }
             }
         } else {
-            let gameResultsController = GameResultsViewController()
-            gameResultsController.isModalInPresentation = true
-            gameResultsController.showGameResult(didWin: false, playerPoints: playerPoints)
-            navigationController?.present(gameResultsController, animated: true)
+            //let gameResultsController = GameResultsViewController()
+            //            gameResultsController.isModalInPresentation = true
+            //            gameResultsController.showGameResult(didWin: false, playerPoints: playerPoints)
+            //            UIView.animate(withDuration: 2) {
+            //                gameResultsController.highScoreImageView.alpha = 1
+            //            }
+            // navigationController?.present(gameResultsController, animated: true)
+            //let mainMenuController = MainMenuViewController()
+            //self.navigationController?.setViewControllers([gameResultsController], animated: true)
+            //navigationController?.pushViewController(gameResultsController, animated: false)
             
             hideButtons()
             playerPoints = 0
             gameLevel = 1
+            //gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
             //mainLabel.text = "YOU LOOSE!"
-            do {
-                audioPlayer = try AVAudioPlayer(contentsOf: lossSound)
-                audioPlayer.play()
-            } catch {
-                //couldn't load file :(
+            audioPlayer.playSound(soundFileName: "loss.wav")
+            showSequence(sequence: [0, 1, 2, 3, 4, 5], lampNumber: 6, duration: 0, delay: 0.3, type: "light")
+            showSequence(sequence: [5, 4, 3, 2, 1, 0], lampNumber: 6, duration: 0, delay: 0.3, type: "lightoff")
+            operationQueue.addOperation {
+                DispatchQueue.main.async {
+                    let gameResultsController = GameResultsViewController()
+                    self.navigationController?.setViewControllers([gameResultsController], animated: true)
+                }
+
             }
-            startButton.isHidden = false
+            //startButton.isHidden = false
         }
     }
-    func isEqualArray(_ array1: [Int], with array2: [LampModel]) -> Bool {
+    func isEqualArray(_ array1: [Int], with array2: [Int]) -> Bool {
         var isEqual: Bool = true
         for (index, item) in array1.enumerated() {
             if index >= lampNumber {
                 break
             }
-            if item != (array2[index].id) {
+            if item != (array2[index]) {
                 isEqual = false
                 break
             }

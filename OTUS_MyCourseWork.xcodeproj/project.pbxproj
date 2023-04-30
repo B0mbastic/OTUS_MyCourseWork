@@ -7,42 +7,52 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D28E60DF29E2802400C94D6B /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28E60DE29E2802400C94D6B /* LaunchScreenViewController.swift */; };
+		D28E60DF29E2802400C94D6B /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28E60DE29E2802400C94D6B /* SplashViewController.swift */; };
 		D29F859329F17CF200053BE1 /* win.wav in Resources */ = {isa = PBXBuildFile; fileRef = D29F859229F17CF200053BE1 /* win.wav */; };
 		D29F859529F196BD00053BE1 /* blue.wav in Resources */ = {isa = PBXBuildFile; fileRef = D29F859429F196BD00053BE1 /* blue.wav */; };
-		D29F859729F1973700053BE1 /* GameResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29F859629F1973700053BE1 /* GameResultViewController.swift */; };
+		D29F859729F1973700053BE1 /* GameResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29F859629F1973700053BE1 /* GameResultsViewController.swift */; };
 		D2A36BCF29EC7D6F00F413A7 /* LampModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A36BCE29EC7D6F00F413A7 /* LampModel.swift */; };
 		D2A4982929EDA7D800F64414 /* green.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2A4982829EDA7D800F64414 /* green.wav */; };
 		D2A4982C29EDA81F00F64414 /* loss.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2A4982A29EDA81F00F64414 /* loss.wav */; };
 		D2A4982D29EDA81F00F64414 /* welcome.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2A4982B29EDA81F00F64414 /* welcome.wav */; };
-		D2A4982F29EDBDBF00F64414 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A4982E29EDBDBF00F64414 /* Settings.swift */; };
+		D2A7C67429F521C700735185 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A7C67329F521C700735185 /* SettingsModel.swift */; };
+		D2AA08E429FD41BF00F88DE7 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA08E329FD41BF00F88DE7 /* AsyncOperation.swift */; };
+		D2AA08E629FD423300F88DE7 /* BlinkOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA08E529FD423300F88DE7 /* BlinkOperation.swift */; };
+		D2AA08E829FD4A3400F88DE7 /* LightOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AA08E729FD4A3400F88DE7 /* LightOperation.swift */; };
 		D2AAFBD129AD1A4400864504 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AAFBD029AD1A4400864504 /* AppDelegate.swift */; };
 		D2AAFBD329AD1A4400864504 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AAFBD229AD1A4400864504 /* SceneDelegate.swift */; };
 		D2AAFBD529AD1A4400864504 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AAFBD429AD1A4400864504 /* GameViewController.swift */; };
 		D2AAFBDA29AD1A4500864504 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2AAFBD929AD1A4500864504 /* Assets.xcassets */; };
 		D2AAFBDD29AD1A4500864504 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2AAFBDB29AD1A4500864504 /* LaunchScreen.storyboard */; };
 		D2AAFBE629AD1E2A00864504 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2AAFBE529AD1E2A00864504 /* SnapKit */; };
+		D2AC610229F82EB2006ADCE9 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AC610129F82EB2006ADCE9 /* UserDefaultsManager.swift */; };
+		D2AC610429F83A78006ADCE9 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AC610329F83A78006ADCE9 /* AudioPlayer.swift */; };
+		D2ACCAB329FE4FDC008DC429 /* LightOffOpetration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ACCAB229FE4FDC008DC429 /* LightOffOpetration.swift */; };
 		D2B0DFDC29E9CF8700A53798 /* TopPlayersTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B0DFDB29E9CF8700A53798 /* TopPlayersTableCell.swift */; };
 		D2B3070529ED5A370051360B /* orange.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070229ED5A370051360B /* orange.wav */; };
 		D2B3070629ED5A370051360B /* violet.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070329ED5A370051360B /* violet.wav */; };
 		D2B3070829ED63460051360B /* start.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070729ED63460051360B /* start.wav */; };
 		D2B3070A29ED85710051360B /* yellow.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070929ED85710051360B /* yellow.wav */; };
 		D2B3071029ED85D10051360B /* red.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070F29ED85D10051360B /* red.wav */; };
+		D2B6585129F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D2B6584F29F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodeld */; };
 		D2EF8AD429E2B7B10098D6A4 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF8AD329E2B7B10098D6A4 /* MainMenuViewController.swift */; };
 		D2EF8AD629E2BC9D0098D6A4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF8AD529E2BC9D0098D6A4 /* SettingsViewController.swift */; };
 		D2EF8AD829E31B020098D6A4 /* TopPlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF8AD729E31B020098D6A4 /* TopPlayersViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D28E60DE29E2802400C94D6B /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+		D28E60DE29E2802400C94D6B /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		D29F859229F17CF200053BE1 /* win.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = win.wav; sourceTree = "<group>"; };
 		D29F859429F196BD00053BE1 /* blue.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = blue.wav; sourceTree = "<group>"; };
-		D29F859629F1973700053BE1 /* GameResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResultViewController.swift; sourceTree = "<group>"; };
+		D29F859629F1973700053BE1 /* GameResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResultsViewController.swift; sourceTree = "<group>"; };
 		D2A36BCE29EC7D6F00F413A7 /* LampModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LampModel.swift; sourceTree = "<group>"; };
 		D2A4982829EDA7D800F64414 /* green.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = green.wav; sourceTree = "<group>"; };
 		D2A4982A29EDA81F00F64414 /* loss.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = loss.wav; sourceTree = "<group>"; };
 		D2A4982B29EDA81F00F64414 /* welcome.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = welcome.wav; sourceTree = "<group>"; };
-		D2A4982E29EDBDBF00F64414 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		D2A7C67329F521C700735185 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		D2AA08E329FD41BF00F88DE7 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
+		D2AA08E529FD423300F88DE7 /* BlinkOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlinkOperation.swift; sourceTree = "<group>"; };
+		D2AA08E729FD4A3400F88DE7 /* LightOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightOperation.swift; sourceTree = "<group>"; };
 		D2AAFBCD29AD1A4400864504 /* OTUS_MyCourseWork.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OTUS_MyCourseWork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2AAFBD029AD1A4400864504 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D2AAFBD229AD1A4400864504 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,12 +60,16 @@
 		D2AAFBD929AD1A4500864504 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D2AAFBDC29AD1A4500864504 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D2AAFBDE29AD1A4500864504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2AC610129F82EB2006ADCE9 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		D2AC610329F83A78006ADCE9 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		D2ACCAB229FE4FDC008DC429 /* LightOffOpetration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightOffOpetration.swift; sourceTree = "<group>"; };
 		D2B0DFDB29E9CF8700A53798 /* TopPlayersTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPlayersTableCell.swift; sourceTree = "<group>"; };
 		D2B3070229ED5A370051360B /* orange.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = orange.wav; sourceTree = "<group>"; };
 		D2B3070329ED5A370051360B /* violet.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = violet.wav; sourceTree = "<group>"; };
 		D2B3070729ED63460051360B /* start.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = start.wav; sourceTree = "<group>"; };
 		D2B3070929ED85710051360B /* yellow.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = yellow.wav; sourceTree = "<group>"; };
 		D2B3070F29ED85D10051360B /* red.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = red.wav; sourceTree = "<group>"; };
+		D2B6585029F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OTUS_MyCourseWork.xcdatamodel; sourceTree = "<group>"; };
 		D2EF8AD329E2B7B10098D6A4 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		D2EF8AD529E2BC9D0098D6A4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D2EF8AD729E31B020098D6A4 /* TopPlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPlayersViewController.swift; sourceTree = "<group>"; };
@@ -77,12 +91,12 @@
 			isa = PBXGroup;
 			children = (
 				D2AAFBD429AD1A4400864504 /* GameViewController.swift */,
-				D28E60DE29E2802400C94D6B /* LaunchScreenViewController.swift */,
+				D28E60DE29E2802400C94D6B /* SplashViewController.swift */,
 				D2EF8AD329E2B7B10098D6A4 /* MainMenuViewController.swift */,
 				D2EF8AD529E2BC9D0098D6A4 /* SettingsViewController.swift */,
 				D2EF8AD729E31B020098D6A4 /* TopPlayersViewController.swift */,
 				D2B0DFDB29E9CF8700A53798 /* TopPlayersTableCell.swift */,
-				D29F859629F1973700053BE1 /* GameResultViewController.swift */,
+				D29F859629F1973700053BE1 /* GameResultsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -91,8 +105,36 @@
 			isa = PBXGroup;
 			children = (
 				D2A36BCE29EC7D6F00F413A7 /* LampModel.swift */,
+				D2A7C67329F521C700735185 /* SettingsModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D2AA08DF29FD410300F88DE7 /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				D2AC610129F82EB2006ADCE9 /* UserDefaultsManager.swift */,
+			);
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
+		D2AA08E129FD413100F88DE7 /* AudioPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				D2AC610329F83A78006ADCE9 /* AudioPlayer.swift */,
+			);
+			path = AudioPlayer;
+			sourceTree = "<group>";
+		};
+		D2AA08E229FD414100F88DE7 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				D2AA08E329FD41BF00F88DE7 /* AsyncOperation.swift */,
+				D2AA08E529FD423300F88DE7 /* BlinkOperation.swift */,
+				D2AA08E729FD4A3400F88DE7 /* LightOperation.swift */,
+				D2ACCAB229FE4FDC008DC429 /* LightOffOpetration.swift */,
+			);
+			path = Operations;
 			sourceTree = "<group>";
 		};
 		D2AAFBC429AD1A4400864504 = {
@@ -114,6 +156,10 @@
 		D2AAFBCF29AD1A4400864504 /* OTUS_MyCourseWork */ = {
 			isa = PBXGroup;
 			children = (
+				D2AA08E229FD414100F88DE7 /* Operations */,
+				D2AA08E129FD413100F88DE7 /* AudioPlayer */,
+				D2AA08DF29FD410300F88DE7 /* UserDefaults */,
+				D2AB8F4F29F3ABD40032C485 /* CoreData */,
 				D2A36BCD29EC7D4F00F413A7 /* Model */,
 				D28E60DD29E27FF600C94D6B /* ViewControllers */,
 				D2B4047C29BF79C700CEAD9E /* AppDelegate */,
@@ -121,9 +167,16 @@
 				D2AAFBD929AD1A4500864504 /* Assets.xcassets */,
 				D2AAFBDB29AD1A4500864504 /* LaunchScreen.storyboard */,
 				D2AAFBDE29AD1A4500864504 /* Info.plist */,
-				D2A4982E29EDBDBF00F64414 /* Settings.swift */,
 			);
 			path = OTUS_MyCourseWork;
+			sourceTree = "<group>";
+		};
+		D2AB8F4F29F3ABD40032C485 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				D2B6584F29F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		D2B4047C29BF79C700CEAD9E /* AppDelegate */ = {
@@ -239,16 +292,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2AA08E629FD423300F88DE7 /* BlinkOperation.swift in Sources */,
 				D2AAFBD529AD1A4400864504 /* GameViewController.swift in Sources */,
 				D2A36BCF29EC7D6F00F413A7 /* LampModel.swift in Sources */,
 				D2AAFBD129AD1A4400864504 /* AppDelegate.swift in Sources */,
-				D28E60DF29E2802400C94D6B /* LaunchScreenViewController.swift in Sources */,
-				D2A4982F29EDBDBF00F64414 /* Settings.swift in Sources */,
+				D28E60DF29E2802400C94D6B /* SplashViewController.swift in Sources */,
 				D2EF8AD829E31B020098D6A4 /* TopPlayersViewController.swift in Sources */,
+				D2ACCAB329FE4FDC008DC429 /* LightOffOpetration.swift in Sources */,
 				D2AAFBD329AD1A4400864504 /* SceneDelegate.swift in Sources */,
+				D2B6585129F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodeld in Sources */,
 				D2EF8AD429E2B7B10098D6A4 /* MainMenuViewController.swift in Sources */,
-				D29F859729F1973700053BE1 /* GameResultViewController.swift in Sources */,
+				D2AC610429F83A78006ADCE9 /* AudioPlayer.swift in Sources */,
+				D29F859729F1973700053BE1 /* GameResultsViewController.swift in Sources */,
+				D2AA08E829FD4A3400F88DE7 /* LightOperation.swift in Sources */,
+				D2AC610229F82EB2006ADCE9 /* UserDefaultsManager.swift in Sources */,
 				D2EF8AD629E2BC9D0098D6A4 /* SettingsViewController.swift in Sources */,
+				D2A7C67429F521C700735185 /* SettingsModel.swift in Sources */,
+				D2AA08E429FD41BF00F88DE7 /* AsyncOperation.swift in Sources */,
 				D2B0DFDC29E9CF8700A53798 /* TopPlayersTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,8 +454,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -423,8 +483,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -480,6 +540,19 @@
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		D2B6584F29F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D2B6585029F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodel */,
+			);
+			currentVersion = D2B6585029F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodel */;
+			path = OTUS_MyCourseWork.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D2AAFBC529AD1A4400864504 /* Project object */;
 }

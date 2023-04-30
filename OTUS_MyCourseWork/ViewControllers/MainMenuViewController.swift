@@ -35,7 +35,6 @@ class MainMenuViewController: UIViewController {
         button.addTarget(self, action: #selector(playGame), for: .touchUpInside)
         return button
     }()
-    
     private lazy var settingsButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemYellow
@@ -60,14 +59,12 @@ class MainMenuViewController: UIViewController {
         return button
     }()
     
-    var lang: String = "ru"
-    
     private func setupViews() {
         view.backgroundColor = .white
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.leading.trailing.equalToSuperview()
+           // make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.top.bottom.leading.trailing.equalToSuperview()
         }
         view.addSubview(mainLabel)
         mainLabel.snp.makeConstraints { make in
@@ -99,21 +96,24 @@ class MainMenuViewController: UIViewController {
             make.height.equalTo(40)
         }
     }
-    
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        //print(StartLabel.lang.rawValue)
-        
     }
+    
     @objc func playGame(sender: UIButton!){
         let gameController = GameViewController()
         navigationController?.pushViewController(gameController, animated: true)
     }
+    
     @objc func openSettings(sender: UIButton!){
         let settingsController = SettingsViewController()
         navigationController?.pushViewController(settingsController, animated: true)
     }
+    
     @objc func openTopPlayers(sender: UIButton!){
         let topPlayersController = TopPlayersViewController()
         navigationController?.pushViewController(topPlayersController, animated: true)

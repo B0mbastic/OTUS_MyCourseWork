@@ -12,6 +12,6 @@ struct LampModel {
     let id: Int
     //let sound: String
     let view: UIImageView
-    let sound: URL
+    let sound: String
 }
 

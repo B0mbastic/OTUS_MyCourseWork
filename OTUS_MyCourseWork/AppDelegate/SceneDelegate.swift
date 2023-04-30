@@ -11,17 +11,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
-        let controller = MainMenuViewController()
+        //let controller = MainMenuViewController()
+        let controller = SplashViewController()
         let navController = UINavigationController(rootViewController: controller)
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()
+        
+//        var foregroundSplashWindow = UIWindow(windowScene: windowScene)
+//        let splashViewController = SplashViewController()
+//        foregroundSplashWindow.windowLevel = .normal + 1
+//        foregroundSplashWindow.rootViewController = splashViewController
+//
+//            let splashWindow = UIWindow(windowScene: windowScene)
+//            let splashViewController = SplashViewController()
+//            splashWindow.windowLevel = .normal + 1
+//            splashWindow.rootViewController = splashViewController
+//            return splashWindow
+//        }()
+//        foregroundSplashWindow.isHidden = false
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -50,6 +63,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
 
