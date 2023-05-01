@@ -54,31 +54,60 @@ class GameViewController: UIViewController {
     
     var operationQueue = OperationQueue()
     
-    //    var operationQueue: OperationQueue = {
-    //        let operationQueue = OperationQueue()
-    //        operationQueue.maxConcurrentOperationCount = 1
-    //        return operationQueue
-    //    }()
-    private lazy var mainLabel: UILabel = {
+    private lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 30.0)
+        label.font = UIFont.boldSystemFont(ofSize: 20.0)
         label.textColor = .black
         label.layer.cornerRadius = 20
-        label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
+        label.backgroundColor = .white
+        label.alpha = 0
+        label.layer.cornerRadius = 20
+        //label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
         label.layer.zPosition = 2
-        label.isHidden = true
+        //label.isHidden = true
         return label
     }()
-    private lazy var gameLevelLabel: UILabel = {
+    
+//    private lazy var mainLabel: UILabel = {
+//        let label = UILabel()
+//        label.textAlignment = .center
+//        label.font = UIFont.boldSystemFont(ofSize: 20.0)
+//        label.textColor = .black
+//        label.layer.cornerRadius = 20
+//        label.backgroundColor = .white
+//        label.alpha = 0
+//        //label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
+//        label.layer.zPosition = 2
+//        //label.isHidden = true
+//        return label
+//    }()
+    private lazy var pointsLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15.0)
+        label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 30.0)
-        label.textColor = .black
-        label.layer.cornerRadius = 20
-        label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
+        label.text = "POINTS: 9999"
+        label.backgroundColor = .systemCyan
+        label.layer.cornerRadius = 15
+        label.layer.masksToBounds = true
+        //label.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
+        //label.layer.borderWidth = 2
         label.layer.zPosition = 2
-        label.isHidden = true
+        return label
+    }()
+    private lazy var levelLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 15.0)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.text = "LEVEL 1"
+        label.backgroundColor = .systemPurple
+        label.layer.cornerRadius = 15
+        label.layer.masksToBounds = true
+//        label.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
+//        label.layer.borderWidth = 2
+        label.layer.zPosition = 2
         return label
     }()
     private lazy var backgroundView: UIView = {
@@ -198,12 +227,13 @@ class GameViewController: UIViewController {
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
+//        button.layer.borderWidth = 2
+//        button.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         button.layer.cornerRadius = 15
         button.layer.zPosition = 5
         button.setTitle("START", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.addTarget(self, action: #selector(startGame), for: .touchUpInside)
         return button
     }()
@@ -224,59 +254,65 @@ class GameViewController: UIViewController {
         view.addSubview(orangeButton)
         view.addSubview(blueButton)
         view.addSubview(startButton)
-        view.addSubview(mainLabel)
-        view.addSubview(gameLevelLabel)
         
         backgroundView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.bottom.leading.trailing.equalToSuperview()
+            //make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.top.bottom.leading.trailing.equalToSuperview()
         }
-        mainLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(gameLevelLabel.snp.top).offset(-40)
-            make.width.equalTo(200)
-            make.height.equalTo(40)
-        }
-        
-        gameLevelLabel.snp.makeConstraints { make in
+        view.addSubview(statusLabel)
+        statusLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(toyImageView.snp.top).offset(-40)
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
+        view.addSubview(pointsLabel)
+        pointsLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(30)
+            make.top.equalToSuperview().offset(150)
+            make.width.equalTo(120)
+            make.height.equalTo(40)
+        }
+        view.addSubview(levelLabel)
+        levelLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(30)
+            make.top.equalToSuperview().offset(150)
+            make.width.equalTo(120)
+            make.height.equalTo(40)
+        }
         toyImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
             make.width.height.equalTo(sizeConstant)
         }
         violetLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
             make.width.height.equalTo(sizeConstant)
         }
         redLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
             make.width.height.equalTo(sizeConstant)
         }
         yellowLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
             make.width.height.equalTo(sizeConstant)
         }
         greenLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
             make.width.height.equalTo(sizeConstant)
         }
         orangeLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
             make.width.height.equalTo(sizeConstant)
         }
         blueLight.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
             make.width.height.equalTo(sizeConstant)
         }
         violetButton.snp.makeConstraints { make in
@@ -324,13 +360,10 @@ class GameViewController: UIViewController {
     }
     
     @objc func startGame(sender: UIButton!) {
-        enum NetworkError: Error {
-            case customError
-        }
-        mainLabel.isHidden = false
-        mainLabel.text = "POINTS: \(playerPoints)"
-        gameLevelLabel.isHidden = false
-        gameLevelLabel.text = "LEVEL: \(gameLevel)"
+//        pointsLabel.text = "POINTS: \(playerPoints)"
+        levelLabel.text = "LEVEL: \(gameLevel)"
+        statusLabel.alpha = 0
+        statusLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
         startButton.isHidden = true
         playerSequence = []
         lampNumber = 1
@@ -366,7 +399,7 @@ class GameViewController: UIViewController {
         let buttonTag: Int = sender.tag
         //let lampImageView = lamps[buttonTag].view
         //let lampSound = lamps[buttonTag].sound
-        operationQueue.maxConcurrentOperationCount = lampNumber + 1
+        operationQueue.maxConcurrentOperationCount = lampNumber
         //let operation = LampOperation(view: lampImageView, sound: lampSound, delayOn: 0, delayOff: 0.4)
         //operationQueue.addOperation(operation)
         //operationQueue.maxConcurrentOperationCount = 1
@@ -374,6 +407,7 @@ class GameViewController: UIViewController {
         playerSequence.append(buttonTag)
         if isEqualArray(playerSequence, with: gameSequence) {
             if playerSequence.count == lampNumber {
+                playerPoints += 10
                 operationQueue.addOperation {
                     DispatchQueue.main.async {
                         self.hideButtons()
@@ -382,20 +416,21 @@ class GameViewController: UIViewController {
                 if lampNumber == gameSequence.count {
                     gameLevel += 1
                     gameSequence.append(Int.random(in: 0...5))
-                    gameLevelLabel.text = ("LEVEL: \(gameLevel)")
+                    pointsLabel.text = ("POINTS: \(playerPoints)")
+                    //levelLabel.text = ("LEVEL: \(gameLevel)")
                     //                    let gameResultsController = GameResultsViewController()
                     //                    gameResultsController.isModalInPresentation = true
                     //                    gameResultsController.showGameResult(didWin: true, playerPoints: playerPoints)
                     //navigationController?.present(gameResultsController, animated: true)
-                    mainLabel.text = "YOU WIN!"
-                    
-                    self.operationQueue.maxConcurrentOperationCount = 5
-                    self.operationQueue.addOperation {
-                        self.audioPlayer.playSound(soundFileName: "win.wav")
+                    statusLabel.text = "Level \(gameLevel - 1) complete!"
+                    UIView.animate(withDuration: 0.5, delay: 0) {
+                        self.statusLabel.alpha = 1
+                        self.statusLabel.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                     }
-                    showSequence(sequence: [0, 2, 4], lampNumber: 6, delayOn: 1, delayOff: 0.7, sound: false)
-//                    self.operationQueue.maxConcurrentOperationCount = 3
-//                    showSequence(sequence: [1, 3, 5, 0, 2, 4], lampNumber: 6, delayOn: 0, delayOff: 0.5, sound: false)
+                    
+                    self.audioPlayer.playSound(soundFileName: "win.wav")
+                    self.operationQueue.maxConcurrentOperationCount = 3
+                    showSequence(sequence: [0, 2, 4, 1, 3, 5, 0, 2, 4, 1, 3, 5, 0, 2, 4, 1, 3, 5], lampNumber: 18, delayOn: 0, delayOff: 0.1, sound: false)
                     self.operationQueue.addOperation {
                         DispatchQueue.main.async {
                             self.startButton.isHidden = false
@@ -403,8 +438,7 @@ class GameViewController: UIViewController {
                     }
                 }
                 else {
-                    playerPoints += 10
-                    mainLabel.text = ("POINTS: \(playerPoints)")
+                    pointsLabel.text = ("POINTS: \(playerPoints)")
                     lampNumber += 1
                     playerSequence = []
                     
@@ -428,11 +462,15 @@ class GameViewController: UIViewController {
             playerPoints = 0
             gameLevel = 1
             gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
-            mainLabel.text = "YOU LOOSE!"
-            audioPlayer.playSound(soundFileName: "loss.wav")
-            operationQueue.maxConcurrentOperationCount = 1
-            showSequence(sequence: [0, 1, 2, 3, 4, 5], lampNumber: 6, delayOn: 0.3, delayOff: nil, sound: false)
-            showSequence(sequence: [5, 4, 3, 2, 1, 0], lampNumber: 6, delayOn: nil, delayOff: 0.3, sound: false)
+            statusLabel.text = "YOU LOST!"
+            UIView.animate(withDuration: 0.5, delay: 0) {
+                self.statusLabel.alpha = 1
+                self.statusLabel.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+            }
+//            audioPlayer.playSound(soundFileName: "loss.wav")
+//            operationQueue.maxConcurrentOperationCount = 1
+//            showSequence(sequence: [0, 1, 2, 3, 4, 5], lampNumber: 6, delayOn: 0.3, delayOff: nil, sound: false)
+//            showSequence(sequence: [5, 4, 3, 2, 1, 0], lampNumber: 6, delayOn: nil, delayOff: 0.3, sound: false)
             operationQueue.addOperation {
                 DispatchQueue.main.async {
                     let gameResultsController = GameResultsViewController()

@@ -17,8 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
-        //let controller = MainMenuViewController()
-        let controller = SplashViewController()
+        let controller = GameResultsViewController()
+        //let controller = SplashViewController()
         let navController = UINavigationController(rootViewController: controller)
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()

@@ -28,7 +28,7 @@ class LampOperation: AsyncOperation {
         }
         DispatchQueue.main.async {
             if (self.delayOn != nil) && (self.delayOff == nil) {
-                UIView.animate(withDuration: 0, delay: self.delayOn!) {
+                UIView.animate(withDuration: 0.1, delay: self.delayOn!) {
                     self.view?.alpha = 1.0
                 } completion: { _ in
                     self.finish()
@@ -36,7 +36,7 @@ class LampOperation: AsyncOperation {
             }
             
             if (self.delayOff != nil) && (self.delayOn == nil) {
-                UIView.animate(withDuration: 0, delay: self.delayOff!) {
+                UIView.animate(withDuration: 0.1, delay: self.delayOff!) {
                     self.view?.alpha = 0
                 } completion: { _ in
                     self.finish()
@@ -44,10 +44,10 @@ class LampOperation: AsyncOperation {
             }
             if (self.delayOn != nil) && (self.delayOff != nil)
             {
-                UIView.animate(withDuration: 0, delay: self.delayOn!) {
+                UIView.animate(withDuration: 0.1, delay: self.delayOn!) {
                     self.view?.alpha = 1.0
                 } completion: { _ in
-                    UIView.animate(withDuration: 0, delay: self.delayOff!) {
+                    UIView.animate(withDuration: 0.1, delay: self.delayOff!) {
                         self.view?.alpha = 0
                     } completion: { _ in
                         self.finish()

@@ -29,6 +29,7 @@
 		D2AC610429F83A78006ADCE9 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AC610329F83A78006ADCE9 /* AudioPlayer.swift */; };
 		D2ACCAB329FE4FDC008DC429 /* LightOffOpetration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ACCAB229FE4FDC008DC429 /* LightOffOpetration.swift */; };
 		D2ACCAB529FE8E6E008DC429 /* LampOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ACCAB429FE8E6E008DC429 /* LampOperation.swift */; };
+		D2ACCAB829FEFB68008DC429 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ACCAB729FEFB68008DC429 /* NetworkService.swift */; };
 		D2B0DFDC29E9CF8700A53798 /* TopPlayersTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2B0DFDB29E9CF8700A53798 /* TopPlayersTableCell.swift */; };
 		D2B3070529ED5A370051360B /* orange.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070229ED5A370051360B /* orange.wav */; };
 		D2B3070629ED5A370051360B /* violet.wav in Resources */ = {isa = PBXBuildFile; fileRef = D2B3070329ED5A370051360B /* violet.wav */; };
@@ -65,6 +66,7 @@
 		D2AC610329F83A78006ADCE9 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		D2ACCAB229FE4FDC008DC429 /* LightOffOpetration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightOffOpetration.swift; sourceTree = "<group>"; };
 		D2ACCAB429FE8E6E008DC429 /* LampOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LampOperation.swift; sourceTree = "<group>"; };
+		D2ACCAB729FEFB68008DC429 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D2B0DFDB29E9CF8700A53798 /* TopPlayersTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPlayersTableCell.swift; sourceTree = "<group>"; };
 		D2B3070229ED5A370051360B /* orange.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = orange.wav; sourceTree = "<group>"; };
 		D2B3070329ED5A370051360B /* violet.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = violet.wav; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 		D2AAFBCF29AD1A4400864504 /* OTUS_MyCourseWork */ = {
 			isa = PBXGroup;
 			children = (
+				D2ACCAB629FEFABB008DC429 /* NetworkService */,
 				D2AA08E229FD414100F88DE7 /* Operations */,
 				D2AA08E129FD413100F88DE7 /* AudioPlayer */,
 				D2AA08DF29FD410300F88DE7 /* UserDefaults */,
@@ -180,6 +183,14 @@
 				D2B6584F29F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodeld */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		D2ACCAB629FEFABB008DC429 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				D2ACCAB729FEFB68008DC429 /* NetworkService.swift */,
+			);
+			path = NetworkService;
 			sourceTree = "<group>";
 		};
 		D2B4047C29BF79C700CEAD9E /* AppDelegate */ = {
@@ -305,6 +316,7 @@
 				D2ACCAB329FE4FDC008DC429 /* LightOffOpetration.swift in Sources */,
 				D2AAFBD329AD1A4400864504 /* SceneDelegate.swift in Sources */,
 				D2B6585129F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodeld in Sources */,
+				D2ACCAB829FEFB68008DC429 /* NetworkService.swift in Sources */,
 				D2EF8AD429E2B7B10098D6A4 /* MainMenuViewController.swift in Sources */,
 				D2AC610429F83A78006ADCE9 /* AudioPlayer.swift in Sources */,
 				D29F859729F1973700053BE1 /* GameResultsViewController.swift in Sources */,
