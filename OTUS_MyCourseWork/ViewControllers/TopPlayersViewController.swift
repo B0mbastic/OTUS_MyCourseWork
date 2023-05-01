@@ -6,8 +6,18 @@
 //
 
 import UIKit
+import CoreData
 
 class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var fetchResultController: NSFetchedResultsController<NSFetchRequestResult> = {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TopPlayers")
+        let sortDescriptor = NSSortDescriptor(key: "points", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.context, sectionNameKeyPath: nil, cacheName: nil)
+        return fetchedResultController
+    }()
+    
     let cellID = "cellID"
     private lazy var backgroundView: UIView = {
         let view = UIView()
@@ -28,19 +38,9 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         table.register(TopPlayersTableCell.self, forCellReuseIdentifier: cellID)
         table.delegate = self
         table.dataSource = self
-        table.rowHeight = 80
+        table.rowHeight = 100
         return table
     }()
-    
-    struct personRecord {
-        let personFirstName: String
-        let personMiddleName: String
-        let personLastName: String
-        let personPosition: String
-        let personAddress: String
-        let personPhoto: String
-    }
-    let personsArray = [personRecord(personFirstName: "John", personMiddleName: "James", personLastName: "Rambo", personPosition: "soldier", personAddress: "USA, Bowie, Arizona", personPhoto: "logo0"), personRecord(personFirstName: "Alan", personMiddleName: "X", personLastName: "Schaefer", personPosition: "green berette", personAddress: "USA", personPhoto: "logo1"), personRecord(personFirstName: "Marion", personMiddleName: "X", personLastName: "Cobretti", personPosition: "policeman", personAddress: "USA", personPhoto: "logo2")]
     
     private func setupViews() {
         view.backgroundColor = .white
@@ -65,16 +65,30 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        do {
+            try fetchResultController.performFetch()
+        } catch {
+            print(error)
+        }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return personsArray.count
+        if let sections = fetchResultController.sections {
+            return sections[section].numberOfObjects
+        }
+        else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = topPlayersTableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? TopPlayersTableCell
-        let personName: String
-        personName = "\(personsArray[indexPath.row].personFirstName) \(personsArray[indexPath.row].personMiddleName) \(personsArray[indexPath.row].personLastName)"
-        cell?.setPersonName(personName: personName, personPhoto: personsArray[indexPath.row].personPhoto)
+        let player = fetchResultController.object(at: indexPath) as! TopPlayers
+        cell?.playerNameLabel.text = player.name
+        cell?.playerPointsLabel.text = String(player.points)
+        cell?.playerAvatarImageView.image = UIImage(data: player.avatar!)
+//        let personName: String
+//        personName = "\(personsArray[indexPath.row].personFirstName) \(personsArray[indexPath.row].personMiddleName) \(personsArray [indexPath.row].personLastName)"
+//        cell?.setPersonName(personName: personName, personPhoto: personsArray[indexPath.row].personPhoto)
         return cell ?? TopPlayersTableCell()
     }
 }

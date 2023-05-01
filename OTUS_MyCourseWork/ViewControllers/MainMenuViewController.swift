@@ -16,19 +16,19 @@ class MainMenuViewController: UIViewController {
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 30.0)
-        label.textColor = .black
+        //label.font = UIFont.boldSystemFont(ofSize: 30.0)
+        label.font = UIFont(name: "Copperplate", size: 40)
         label.layer.cornerRadius = 20
         label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
         label.text = "Repeat-a-color"
-        label.textColor = .black
+        label.textColor = .systemIndigo
         return label
     }()
     private lazy var gameButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
         button.setTitle("PLAY GAME", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -38,8 +38,8 @@ class MainMenuViewController: UIViewController {
     private lazy var settingsButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemYellow
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
         button.setTitle("SETTINGS", for: .normal)
         button.setTitleColor(.black, for: .normal)
@@ -50,8 +50,8 @@ class MainMenuViewController: UIViewController {
     private lazy var topPlayersButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemPurple
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
         button.setTitle("TOP PLAYERS", for: .normal)
         button.setTitleColor(.black, for: .normal)

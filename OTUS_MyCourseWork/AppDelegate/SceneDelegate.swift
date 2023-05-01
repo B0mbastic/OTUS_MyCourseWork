@@ -17,8 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: windowScene)
-        let controller = GameResultsViewController()
-        //let controller = SplashViewController()
+        //let controller = GameResultsViewController()
+        let controller = SplashViewController()
         let navController = UINavigationController(rootViewController: controller)
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()
@@ -63,7 +63,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+       // (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
 

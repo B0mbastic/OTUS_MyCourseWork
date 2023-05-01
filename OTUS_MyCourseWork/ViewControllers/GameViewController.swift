@@ -87,7 +87,7 @@ class GameViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 15.0)
         label.textColor = .white
         label.textAlignment = .center
-        label.text = "POINTS: 9999"
+        label.text = "POINTS: 0"
         label.backgroundColor = .systemCyan
         label.layer.cornerRadius = 15
         label.layer.masksToBounds = true
@@ -459,7 +459,7 @@ class GameViewController: UIViewController {
                     self.hideButtons()
                 }
             }
-            playerPoints = 0
+            //playerPoints = 0
             gameLevel = 1
             gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
             statusLabel.text = "YOU LOST!"
@@ -474,6 +474,8 @@ class GameViewController: UIViewController {
             operationQueue.addOperation {
                 DispatchQueue.main.async {
                     let gameResultsController = GameResultsViewController()
+                    gameResultsController.playerPoints = self.playerPoints
+                    //gameResultsController.setPlayerPoints(points: self.playerPoints)
                     self.navigationController?.setViewControllers([gameResultsController], animated: true)
                 }
                 

@@ -8,34 +8,43 @@
 import Foundation
 import UIKit
 
+
 class TopPlayersTableCell: UITableViewCell {
-    var personNameLabel = UILabel()
-    let personPhotoImageView = UIImageView()
+    let playerAvatarImageView = UIImageView()
+    
+    lazy var playerNameLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        return label
+    }()
+    
+    lazy var playerPointsLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .systemGray6
-        print(layer.frame.height)
-        addSubview(personPhotoImageView)
-        personPhotoImageView.frame = CGRect(x: 10, y: 10, width: 60, height: 60)
-        personPhotoImageView.layer.borderWidth = 1
-        personPhotoImageView.contentMode = .scaleAspectFill
-        personPhotoImageView.clipsToBounds = true
 
-        addSubview(personNameLabel)
-        personNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        personNameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        personNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        personNameLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        personNameLabel.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        addSubview(playerAvatarImageView)
+        playerAvatarImageView.frame = CGRect(x: 10, y: 10, width: 80, height: 80)
+        playerAvatarImageView.contentMode = .scaleAspectFill
+        playerAvatarImageView.clipsToBounds = true
+        
+        addSubview(playerNameLabel)
+        playerNameLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(120)
+            make.centerY.equalTo(self)
+        }
+        addSubview(playerPointsLabel)
+        playerPointsLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(200)
+            make.centerY.equalTo(self)
+        }
     }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-    }
-    
-    func setPersonName(personName: String, personPhoto: String) {
-        personNameLabel.text = personName
-        personPhotoImageView.image = UIImage(named: personPhoto)
     }
 }

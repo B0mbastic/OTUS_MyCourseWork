@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class InsetsTextField: UITextField {
     override func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -18,10 +19,13 @@ class InsetsTextField: UITextField {
 }
 
 class GameResultsViewController: UIViewController {
+    var imageData: Data?
+    
+    var playerPoints: Int = 0
     
     private let networkService: NetworkService = NetworkServiceImp()
     
-    private lazy var imageData: Data = Data()
+    //private lazy var imageData: Data = Data()
     
     private lazy var backgroundView: UIView = {
         let view = UIView()
@@ -40,6 +44,7 @@ class GameResultsViewController: UIViewController {
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
         label.textColor = .black
+        label.text = "Your points: \(playerPoints)"
         label.layer.cornerRadius = 20
         label.backgroundColor = .white
         label.alpha = 0
@@ -85,7 +90,7 @@ class GameResultsViewController: UIViewController {
         let textfield = InsetsTextField()
         textfield.backgroundColor = .white
         textfield.layer.cornerRadius = 10
-       // textfield.layer.borderWidth = 1
+        // textfield.layer.borderWidth = 1
         textfield.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         textfield.alpha = 0
         textfield.layer.zPosition = 2
@@ -100,7 +105,7 @@ class GameResultsViewController: UIViewController {
         image.layer.zPosition = 2
         return image
     }()
-    private lazy var loadButton: UIButton = {
+    private lazy var generateAvatarButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 210/255, green: 212/255, blue: 246/255, alpha: 1)
         //button.layer.borderWidth = 1
@@ -109,25 +114,25 @@ class GameResultsViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
         button.setTitle("Generate", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(loadImage), for: .touchUpInside)
+        button.addTarget(self, action: #selector(generateAvatar), for: .touchUpInside)
         button.alpha = 0
         button.layer.zPosition = 2
         return button
     }()
-        private lazy var saveHighscoreButton: UIButton = {
-            let button = UIButton()
-            button.backgroundColor = .systemGreen
-            //button.layer.borderWidth = 1
-            button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
-            button.layer.cornerRadius = 15
-            button.setTitle("Save my highscore!", for: .normal)
-            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
-            button.setTitleColor(.white, for: .normal)
-            button.addTarget(self, action: #selector(playGame), for: .touchUpInside)
-            button.alpha = 0
-            button.layer.zPosition = 2
-            return button
-        }()
+    private lazy var saveHighscoreButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .systemGreen
+        //button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
+        button.layer.cornerRadius = 15
+        button.setTitle("Save my highscore!", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(savePlayer), for: .touchUpInside)
+        button.alpha = 0
+        button.layer.zPosition = 2
+        return button
+    }()
     //    private lazy var restartButton: UIButton = {
     //        let button = UIButton()
     //        button.backgroundColor = .systemGreen
@@ -158,32 +163,31 @@ class GameResultsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupViews()
-        pointsLabel.text = "YOUR POINTS: 1000"
         
-        UIView.animate(withDuration: 0.5, delay: 0.2) {
+        UIView.animate(withDuration: 0, delay: 0) {
             self.pointsLabel.alpha = 1
             self.pointsLabel.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         }
         
-        UIView.animate(withDuration: 0.5, delay: 0.5) {
+        UIView.animate(withDuration: 0, delay: 0) {
             self.playerDataView.alpha = 1
         }
         
-        UIView.animate(withDuration: 1, delay: 0.5) {
+        UIView.animate(withDuration: 0, delay: 0) {
             self.highScoreImageView.alpha = 1
             self.highScoreImageView.transform = CGAffineTransform(scaleX: 3, y: 3)
         }
         
-        UIView.animate(withDuration: 0.3, delay: 1.5) {
+        UIView.animate(withDuration: 0, delay: 0) {
             self.highScoreImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
         
-        UIView.animate(withDuration: 0, delay: 2) {
+        UIView.animate(withDuration: 0, delay: 0) {
             self.playerNameLabel.alpha = 1
             self.playerNameTextField.alpha = 1
             self.playerAvatarLabel.alpha = 1
             self.avatarImageView.alpha = 1
-            self.loadButton.alpha = 1
+            self.generateAvatarButton.alpha = 1
             self.saveHighscoreButton.alpha = 1
         }
     }
@@ -234,13 +238,13 @@ class GameResultsViewController: UIViewController {
         }
         view.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints { make in
-            //make.centerX.equalToSuperview()
-            make.leading.equalTo(playerAvatarLabel.snp.trailing).offset(40)
+            make.centerX.equalTo(playerNameTextField.snp.centerX)
+            //make.leading.equalTo(playerAvatarLabel.snp.trailing).offset(40)
             make.top.equalTo(playerNameLabel.snp.top).offset(60)
             make.width.height.equalTo(80)
         }
-        view.addSubview(loadButton)
-        loadButton.snp.makeConstraints { make in
+        view.addSubview(generateAvatarButton)
+        generateAvatarButton.snp.makeConstraints { make in
             //make.leading.equalTo(playerDataView.snp.leading).offset(40)
             make.top.equalTo(avatarImageView.snp.bottom).offset(20)
             make.centerX.equalTo(avatarImageView.snp.centerX)
@@ -257,18 +261,49 @@ class GameResultsViewController: UIViewController {
             make.height.equalTo(40)
         }
     }
-    @objc func playGame(sender: UIButton!){
-        DispatchQueue.main.async {
-            let gameController = GameViewController()
-            self.navigationController?.setViewControllers([gameController], animated: true)
-        }
+    @objc func savePlayer(sender: UIButton!){
+        //DispatchQueue.main.async {
+        let managedObject = TopPlayers(entity: CoreDataManager.instance.entityForName(entityName: "TopPlayers"), insertInto: CoreDataManager.instance.context)
+        
+        managedObject.name = playerNameTextField.text
+        managedObject.points = Int16(playerPoints)
+        managedObject.avatar = imageData
+        //managedObject.
+        //let name: String? = managedObject.name
+        CoreDataManager.instance.saveContext()
+        //managedObject.setValue(playerNameTextField.text, forKey: "name")
+        //print (managedObject.value(forKey: "name"))
+        
+//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TopPlayers")
+//
+//        do {
+//            let results = try CoreDataManager.instance.context.fetch(fetchRequest)
+//            for result in results as! [TopPlayers] {
+//                print("name - \(result.value(forKey: "name"))")
+//            }
+//        }
+//            catch {
+//                print(error)
+//            }
+        
+        
+        
+        //
+                    let gameController = GameViewController()
+                    self.navigationController?.setViewControllers([gameController], animated: true)
+        // }
     }
+    
+    //    func setPlayerPoints (points: Int) {
+    //        pointsLabel.text = "YOUR POINTS: \(playerPoints)"
+    //    }
+    
     @objc func exitGame(sender: UIButton!){
         UIView.animate(withDuration: 0, delay: 0.5) {
         }
     }
     
-    @objc func loadImage(sender: UIButton!){
+    @objc func generateAvatar(sender: UIButton!){
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.dicebear.com"
@@ -289,8 +324,8 @@ class GameResultsViewController: UIViewController {
         self.networkService.request(url: request) { result in
             switch result {
             case .success(let data):
-//                print(data)
-//                self.imageData = data
+                //                print(data)
+                                self.imageData = data
                 self.avatarImageView.image = UIImage(data: data)
             case .failure:
                 //error handler
@@ -298,7 +333,7 @@ class GameResultsViewController: UIViewController {
             }
         }
         
-
+        
     }
 }
 
