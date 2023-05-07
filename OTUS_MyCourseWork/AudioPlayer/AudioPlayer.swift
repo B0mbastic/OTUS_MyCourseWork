@@ -10,7 +10,7 @@ import AVFoundation
 
 final class AudioPlayer {
     private var audioPlayer: AVAudioPlayer!
-    private var isAudioOn = UserDefaultsManager.isAudioOn
+    private var isAudioOn = UserDefaultsManager().checkKey(key: "isAudioOnKey") ?  UserDefaultsManager.isAudioOn : true
     func playSound(soundFileName: String) {
         let split = soundFileName.components(separatedBy: ".")
         let sound = URL(fileURLWithPath: Bundle.main.path(forResource: split[0], ofType: split[1])!)

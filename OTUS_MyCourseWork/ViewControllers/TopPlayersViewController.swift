@@ -18,6 +18,9 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         return fetchedResultController
     }()
     
+
+        
+    
     let cellID = "cellID"
     private lazy var backgroundView: UIView = {
         let view = UIView()
@@ -38,7 +41,7 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         table.register(TopPlayersTableCell.self, forCellReuseIdentifier: cellID)
         table.delegate = self
         table.dataSource = self
-        table.rowHeight = 100
+        table.rowHeight = 120
         return table
     }()
     
@@ -71,6 +74,7 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
             print(error)
         }
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sections = fetchResultController.sections {
             return sections[section].numberOfObjects
@@ -86,24 +90,6 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         cell?.playerNameLabel.text = player.name
         cell?.playerPointsLabel.text = String(player.points)
         cell?.playerAvatarImageView.image = UIImage(data: player.avatar!)
-//        let personName: String
-//        personName = "\(personsArray[indexPath.row].personFirstName) \(personsArray[indexPath.row].personMiddleName) \(personsArray [indexPath.row].personLastName)"
-//        cell?.setPersonName(personName: personName, personPhoto: personsArray[indexPath.row].personPhoto)
         return cell ?? TopPlayersTableCell()
     }
 }
-
-
-//extension TopPlayersViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let personViewController = PersonViewController()
-//        personViewController.personFirstName = personsArray[indexPath.row].personFirstName
-//        personViewController.personMiddleName = personsArray[indexPath.row].personMiddleName
-//        personViewController.personLastName = personsArray[indexPath.row].personLastName
-//
-//        personViewController.personPhoto = personsArray[indexPath.row].personPhoto
-//
-//        //present(personViewController, animated: true)
-//        self.navigationController?.pushViewController(personViewController, animated: true)
-//    }
-//}

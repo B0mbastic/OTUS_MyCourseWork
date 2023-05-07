@@ -8,9 +8,14 @@
 import Foundation
 import UIKit
 
-
 class TopPlayersTableCell: UITableViewCell {
-    let playerAvatarImageView = UIImageView()
+    
+    lazy var playerAvatarImageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        return view
+    }()
     
     lazy var playerNameLabel: UILabel = {
         let label = UILabel()
@@ -23,24 +28,27 @@ class TopPlayersTableCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .systemGray6
-
+        
         addSubview(playerAvatarImageView)
-        playerAvatarImageView.frame = CGRect(x: 10, y: 10, width: 80, height: 80)
-        playerAvatarImageView.contentMode = .scaleAspectFill
-        playerAvatarImageView.clipsToBounds = true
+        playerAvatarImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(20)
+            make.width.height.equalTo(80)
+        }
         
         addSubview(playerNameLabel)
         playerNameLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(120)
             make.centerY.equalTo(self)
         }
+        
         addSubview(playerPointsLabel)
         playerPointsLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(200)
+            make.trailing.equalToSuperview().inset(40)
             make.centerY.equalTo(self)
         }
     }

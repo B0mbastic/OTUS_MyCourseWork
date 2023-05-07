@@ -31,7 +31,7 @@ class MainMenuViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
         button.setTitle("PLAY GAME", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        //button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(playGame), for: .touchUpInside)
         return button
     }()
@@ -42,7 +42,7 @@ class MainMenuViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
         button.setTitle("SETTINGS", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        //button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         return button
     }()
@@ -54,7 +54,7 @@ class MainMenuViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
         button.setTitle("TOP PLAYERS", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        //button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(openTopPlayers), for: .touchUpInside)
         return button
     }()

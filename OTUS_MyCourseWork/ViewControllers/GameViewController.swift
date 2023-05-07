@@ -8,10 +8,30 @@
 import UIKit
 import SnapKit
 import AVFoundation
+import CoreData
 
 class GameViewController: UIViewController {
-    let blinkSpeed: Double = 0.5
-    //
+    private var audioPlayer = AudioPlayer()
+    var topPoints: Int = {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TopPlayers")
+        let sortDescriptor = NSSortDescriptor(key: "points", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.fetchLimit = 1
+        var topPointsResult: Int = 0
+        
+        do {
+            let results = try CoreDataManager.instance.context.fetch(fetchRequest)
+            for result in results as! [TopPlayers] {
+                topPointsResult = result.value(forKey: "points") as! Int
+            }
+            return topPointsResult
+        }
+        catch {
+            return 0
+        }
+    }()
+    
+    // let blinkSpeed: Double = 0.5
     var playerSequence: [Int] = []
     var lampNumber: Int = 0
     
@@ -41,15 +61,12 @@ class GameViewController: UIViewController {
             view: blueLight,
             sound: "blue.wav")]
     
-    var gameSequence: [Int] = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(1))
-    
-    
-    
+    var gameSequence: [Int] = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(3))
     var playerPoints: Int = 0
     var gameLevel: Int = 1
-    var isAudioOn = UserDefaultsManager.isAudioOn
+    //var isAudioOn = UserDefaultsManager.isAudioOn
     
-    private var audioPlayer = AudioPlayer()
+    //private var audioPlayer = AudioPlayer()
     private lazy var sizeConstant: CGFloat = view.frame.width * 0.7
     
     var operationQueue = OperationQueue()
@@ -69,19 +86,6 @@ class GameViewController: UIViewController {
         return label
     }()
     
-//    private lazy var mainLabel: UILabel = {
-//        let label = UILabel()
-//        label.textAlignment = .center
-//        label.font = UIFont.boldSystemFont(ofSize: 20.0)
-//        label.textColor = .black
-//        label.layer.cornerRadius = 20
-//        label.backgroundColor = .white
-//        label.alpha = 0
-//        //label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
-//        label.layer.zPosition = 2
-//        //label.isHidden = true
-//        return label
-//    }()
     private lazy var pointsLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15.0)
@@ -105,8 +109,8 @@ class GameViewController: UIViewController {
         label.backgroundColor = .systemPurple
         label.layer.cornerRadius = 15
         label.layer.masksToBounds = true
-//        label.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
-//        label.layer.borderWidth = 2
+        //        label.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
+        //        label.layer.borderWidth = 2
         label.layer.zPosition = 2
         return label
     }()
@@ -227,8 +231,8 @@ class GameViewController: UIViewController {
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-//        button.layer.borderWidth = 2
-//        button.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
+        //        button.layer.borderWidth = 2
+        //        button.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         button.layer.cornerRadius = 15
         button.layer.zPosition = 5
         button.setTitle("START", for: .normal)
@@ -360,7 +364,7 @@ class GameViewController: UIViewController {
     }
     
     @objc func startGame(sender: UIButton!) {
-//        pointsLabel.text = "POINTS: \(playerPoints)"
+        pointsLabel.text = "POINTS: \(playerPoints)"
         levelLabel.text = "LEVEL: \(gameLevel)"
         statusLabel.alpha = 0
         statusLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
@@ -459,28 +463,35 @@ class GameViewController: UIViewController {
                     self.hideButtons()
                 }
             }
-            //playerPoints = 0
             gameLevel = 1
-            gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
-            statusLabel.text = "YOU LOST!"
+            gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(3))
+            statusLabel.text = "YOU LOSE!"
             UIView.animate(withDuration: 0.5, delay: 0) {
                 self.statusLabel.alpha = 1
                 self.statusLabel.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
             }
-//            audioPlayer.playSound(soundFileName: "loss.wav")
-//            operationQueue.maxConcurrentOperationCount = 1
-//            showSequence(sequence: [0, 1, 2, 3, 4, 5], lampNumber: 6, delayOn: 0.3, delayOff: nil, sound: false)
-//            showSequence(sequence: [5, 4, 3, 2, 1, 0], lampNumber: 6, delayOn: nil, delayOff: 0.3, sound: false)
-            operationQueue.addOperation {
-                DispatchQueue.main.async {
-                    let gameResultsController = GameResultsViewController()
-                    gameResultsController.playerPoints = self.playerPoints
-                    //gameResultsController.setPlayerPoints(points: self.playerPoints)
-                    self.navigationController?.setViewControllers([gameResultsController], animated: true)
+            audioPlayer.playSound(soundFileName: "loss.wav")
+            operationQueue.maxConcurrentOperationCount = 1
+            showSequence(sequence: [0, 1, 2, 3, 4, 5], lampNumber: 6, delayOn: 0.3, delayOff: nil, sound: false)
+            showSequence(sequence: [5, 4, 3, 2, 1, 0], lampNumber: 6, delayOn: nil, delayOff: 0.3, sound: false)
+            if playerPoints > topPoints {
+                operationQueue.addOperation {
+                    DispatchQueue.main.async {
+                        let gameResultsController = GameResultsViewController()
+                        gameResultsController.playerPoints = self.playerPoints
+                        //gameResultsController.setPlayerPoints(points: self.playerPoints)
+                        self.navigationController?.setViewControllers([gameResultsController], animated: true)
+                    }
+                    
                 }
-                
+            } else {
+                playerPoints = 0
+                operationQueue.addOperation {
+                    DispatchQueue.main.async {
+                        self.startButton.isHidden = false
+                    }
+                }
             }
-            //startButton.isHidden = false
         }
     }
     

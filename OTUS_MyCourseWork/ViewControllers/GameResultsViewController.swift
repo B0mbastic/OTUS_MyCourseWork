@@ -19,13 +19,9 @@ class InsetsTextField: UITextField {
 }
 
 class GameResultsViewController: UIViewController {
-    var imageData: Data?
-    
+    var imageData: Data? = UIImage(named:"bottts.png")?.pngData()
     var playerPoints: Int = 0
-    
     private let networkService: NetworkService = NetworkServiceImp()
-    
-    //private lazy var imageData: Data = Data()
     
     private lazy var backgroundView: UIView = {
         let view = UIView()
@@ -49,9 +45,7 @@ class GameResultsViewController: UIViewController {
         label.backgroundColor = .white
         label.alpha = 0
         label.layer.cornerRadius = 20
-        //label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
         label.layer.zPosition = 1
-        //label.isHidden = true
         return label
     }()
     private lazy var playerDataView: UIView = {
@@ -66,7 +60,6 @@ class GameResultsViewController: UIViewController {
     }()
     private lazy var playerNameLabel: UILabel = {
         let label = UILabel()
-        //label.backgroundColor = .systemGreen
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 20.0)
         label.textColor = .black
@@ -77,7 +70,6 @@ class GameResultsViewController: UIViewController {
     }()
     private lazy var playerAvatarLabel: UILabel = {
         let label = UILabel()
-        //label.backgroundColor = .systemGreen
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 20.0)
         label.textColor = .black
@@ -88,13 +80,24 @@ class GameResultsViewController: UIViewController {
     }()
     private lazy var playerNameTextField: InsetsTextField = {
         let textfield = InsetsTextField()
+        textfield.placeholder = "Enter your name"
+        textfield.clearButtonMode = .whileEditing
         textfield.backgroundColor = .white
         textfield.layer.cornerRadius = 10
-        // textfield.layer.borderWidth = 1
-        textfield.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         textfield.alpha = 0
         textfield.layer.zPosition = 2
+        textfield.delegate = self
         return textfield
+    }()
+    private lazy var playerNameError: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 10.0)
+        label.textColor = .red
+        label.text = "Enter your name please!"
+        label.alpha = 0
+        label.layer.zPosition = 2
+        return label
     }()
     private lazy var avatarImageView: UIImageView = {
         let image = UIImageView()
@@ -133,56 +136,37 @@ class GameResultsViewController: UIViewController {
         button.layer.zPosition = 2
         return button
     }()
-    //    private lazy var restartButton: UIButton = {
-    //        let button = UIButton()
-    //        button.backgroundColor = .systemGreen
-    //        button.layer.borderWidth = 2
-    //        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
-    //        button.layer.cornerRadius = 20
-    //        button.layer.zPosition = 5
-    //        button.setTitle("Play again", for: .normal)
-    //        button.setTitleColor(.black, for: .normal)
-    //        //button.titleLabel?.font =  UIFont(name: "", size: 40)
-    //        button.addTarget(self, action: #selector(playGame), for: .touchUpInside)
-    //        return button
-    //    }()
-    //    private lazy var exitButton: UIButton = {
-    //        let button = UIButton()
-    //        button.backgroundColor = .systemYellow
-    //        button.layer.borderWidth = 2
-    //        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
-    //        button.layer.cornerRadius = 20
-    //        button.layer.zPosition = 5
-    //        button.setTitle("Back to main menu", for: .normal)
-    //        button.setTitleColor(.black, for: .normal)
-    //        //button.titleLabel?.font =  UIFont(name: "", size: 40)
-    //        button.addTarget(self, action: #selector(exitGame), for: .touchUpInside)
-    //        return button
-    //    }()
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        playerNameTextField.becomeFirstResponder()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        let backgroundTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(onBackgroundTap))
+        view.addGestureRecognizer(backgroundTapGestureRecognizer)
         setupViews()
-        
-        UIView.animate(withDuration: 0, delay: 0) {
+        UIView.animate(withDuration: 0.5, delay: 0.2) {
             self.pointsLabel.alpha = 1
             self.pointsLabel.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
         }
         
-        UIView.animate(withDuration: 0, delay: 0) {
+        UIView.animate(withDuration: 0.5, delay: 0.5) {
             self.playerDataView.alpha = 1
         }
         
-        UIView.animate(withDuration: 0, delay: 0) {
+        UIView.animate(withDuration: 1, delay: 0.5) {
             self.highScoreImageView.alpha = 1
             self.highScoreImageView.transform = CGAffineTransform(scaleX: 3, y: 3)
         }
         
-        UIView.animate(withDuration: 0, delay: 0) {
+        UIView.animate(withDuration: 0.3, delay: 1.5) {
             self.highScoreImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
         
-        UIView.animate(withDuration: 0, delay: 0) {
+        UIView.animate(withDuration: 0.3, delay: 2) {
             self.playerNameLabel.alpha = 1
             self.playerNameTextField.alpha = 1
             self.playerAvatarLabel.alpha = 1
@@ -200,7 +184,7 @@ class GameResultsViewController: UIViewController {
         view.addSubview(pointsLabel)
         pointsLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(200)
+            make.top.equalToSuperview().offset(100)
         }
         view.addSubview(highScoreImageView)
         highScoreImageView.snp.makeConstraints { make in
@@ -214,38 +198,42 @@ class GameResultsViewController: UIViewController {
             make.leading.equalToSuperview().offset(40)
             make.trailing.equalToSuperview().offset(-40)
             make.top.equalTo(pointsLabel.snp.bottom).offset(40)
-            make.height.equalTo(450)
+            make.height.equalTo(400)
         }
         view.addSubview(playerNameLabel)
         playerNameLabel.snp.makeConstraints { make in
-            make.leading.equalTo(playerDataView.snp.leading).offset(40)
+            make.leading.equalTo(playerDataView.snp.leading).offset(20)
             make.top.equalTo(highScoreImageView.snp.top).offset(100)
             make.width.equalTo(80)
         }
         view.addSubview(playerNameTextField)
         playerNameTextField.snp.makeConstraints { make in
-            make.leading.equalTo(playerNameLabel.snp.trailing).offset(40)
-            //make.top.equalTo(playerDataView.snp.top).offset(40)
+            make.trailing.equalTo(playerDataView.snp.trailing).offset(-20)
             make.centerY.equalTo(playerNameLabel.snp.centerY)
-            make.width.equalTo(150)
+            make.width.equalTo(160)
             make.height.equalTo(40)
+        }
+        view.addSubview(playerNameError)
+        playerNameError.snp.makeConstraints { make in
+            make.bottom.equalTo(playerNameTextField.snp.top).offset(-5)
+            make.centerX.equalTo(playerNameTextField.snp.centerX)
+            make.width.equalTo(160)
+            //      make.height.equalTo(30)
         }
         view.addSubview(playerAvatarLabel)
         playerAvatarLabel.snp.makeConstraints { make in
-            make.leading.equalTo(playerDataView.snp.leading).offset(40)
+            make.leading.equalTo(playerDataView.snp.leading).offset(20)
             make.centerY.equalTo(playerNameLabel.snp.top).offset(100)
             make.width.equalTo(80)
         }
         view.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints { make in
             make.centerX.equalTo(playerNameTextField.snp.centerX)
-            //make.leading.equalTo(playerAvatarLabel.snp.trailing).offset(40)
             make.top.equalTo(playerNameLabel.snp.top).offset(60)
             make.width.height.equalTo(80)
         }
         view.addSubview(generateAvatarButton)
         generateAvatarButton.snp.makeConstraints { make in
-            //make.leading.equalTo(playerDataView.snp.leading).offset(40)
             make.top.equalTo(avatarImageView.snp.bottom).offset(20)
             make.centerX.equalTo(avatarImageView.snp.centerX)
             make.width.equalTo(100)
@@ -253,50 +241,33 @@ class GameResultsViewController: UIViewController {
         }
         view.addSubview(saveHighscoreButton)
         saveHighscoreButton.snp.makeConstraints { make in
-            //make.leading.equalTo(playerDataView.snp.leading).offset(40)
-            //make.top.equalTo(avatarImageView.snp.bottom).offset(20)
             make.centerX.equalTo(playerDataView.snp.centerX)
             make.top.equalTo(playerDataView.snp.bottom).offset(40)
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
     }
-    @objc func savePlayer(sender: UIButton!){
-        //DispatchQueue.main.async {
-        let managedObject = TopPlayers(entity: CoreDataManager.instance.entityForName(entityName: "TopPlayers"), insertInto: CoreDataManager.instance.context)
-        
-        managedObject.name = playerNameTextField.text
-        managedObject.points = Int16(playerPoints)
-        managedObject.avatar = imageData
-        //managedObject.
-        //let name: String? = managedObject.name
-        CoreDataManager.instance.saveContext()
-        //managedObject.setValue(playerNameTextField.text, forKey: "name")
-        //print (managedObject.value(forKey: "name"))
-        
-//        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "TopPlayers")
-//
-//        do {
-//            let results = try CoreDataManager.instance.context.fetch(fetchRequest)
-//            for result in results as! [TopPlayers] {
-//                print("name - \(result.value(forKey: "name"))")
-//            }
-//        }
-//            catch {
-//                print(error)
-//            }
-        
-        
-        
-        //
-                    let gameController = GameViewController()
-                    self.navigationController?.setViewControllers([gameController], animated: true)
-        // }
-    }
     
-    //    func setPlayerPoints (points: Int) {
-    //        pointsLabel.text = "YOUR POINTS: \(playerPoints)"
-    //    }
+    @objc func savePlayer(sender: UIButton!){
+        guard let playerName = playerNameTextField.text?.trimmingCharacters(in: .whitespaces) else {
+            playerNameError.alpha = 1
+            return
+        }
+        if playerName == "" {
+            playerNameError.alpha = 1
+        } else {
+            playerNameError.alpha = 0
+            
+            //        let managedObject = TopPlayers(entity: CoreDataManager.instance.entityForName(entityName: "TopPlayers"), insertInto: CoreDataManager.instance.context)
+            //        managedObject.name = playerNameTextField.text
+            //        managedObject.points = Int16(playerPoints)
+            //        managedObject.avatar = imageData
+            //        CoreDataManager.instance.saveContext()
+            //        let mainMenuController = MainMenuViewController()
+            //        let gameController = GameViewController()
+            //        self.navigationController?.setViewControllers([mainMenuController, gameController], animated: true)
+        }
+    }
     
     @objc func exitGame(sender: UIButton!){
         UIView.animate(withDuration: 0, delay: 0.5) {
@@ -304,6 +275,7 @@ class GameResultsViewController: UIViewController {
     }
     
     @objc func generateAvatar(sender: UIButton!){
+        self.generateAvatarButton.setTitle("Loading...", for: .normal)
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.dicebear.com"
@@ -313,27 +285,34 @@ class GameResultsViewController: UIViewController {
             URLQueryItem(name: "size", value: "80"),
             URLQueryItem(name: "backgroundColor", value: "d1d4f9")
         ]
-        
         guard let url = components.url else { return }
-        
-        print(url)
-        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        
         self.networkService.request(url: request) { result in
             switch result {
             case .success(let data):
-                //                print(data)
-                                self.imageData = data
+                self.imageData = data
                 self.avatarImageView.image = UIImage(data: data)
+                self.generateAvatarButton.setTitle("Generate", for: .normal)
             case .failure:
+                print("error")
                 //error handler
                 break
             }
         }
-        
-        
+    }
+    @objc private func onBackgroundTap() {
+        view.endEditing(true)
+    }
+}
+
+extension GameResultsViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else {
+            return true
+        }
+        let resultString = text.replacingCharacters(in: Range(range, in: text)!, with: string)
+        return resultString.count < 10
     }
 }
 

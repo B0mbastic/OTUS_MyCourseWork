@@ -10,7 +10,6 @@ import UIKit
 
 struct LampModel {
     let id: Int
-    //let sound: String
     let view: UIImageView
     let sound: String
 }

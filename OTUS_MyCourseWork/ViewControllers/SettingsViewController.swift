@@ -8,10 +8,10 @@
 import UIKit
 import CoreData
 
-class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITableViewDataSource {
-    var isAudioOn: Bool = UserDefaultsManager.isAudioOn
-    //print("\(isAudioOn)")
+class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITableViewDataSource {tr
     
+    
+
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png")!)
@@ -43,7 +43,7 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
     }()
     private lazy var audioSettingsSwitch: UISwitch = {
         let sw = UISwitch()
-        sw.isOn = isAudioOn
+        //sw.isOn = true
         return sw
     }()
     private lazy var languageSettingsLabel: UILabel = {
@@ -63,43 +63,20 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
     private lazy var saveSettingsButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
-        button.setTitle("Save", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitle("SAVE", for: .normal)
         button.addTarget(self, action: #selector(saveSettings), for: .touchUpInside)
         return button
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        //        let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
-        //        let entityDescription = NSEntityDescription.entity(forEntityName: "Settings", in: context)
-        //        let managedObject = NSManagedObject(entity: entityDescription!, insertInto: context)
-        //        //        managedObject.setValue("ru", forKey: "language")
-        //        //        managedObject.setValue("eng", forKey: "language")
-        //
-        //        //        let language = managedObject.value(forKey: "language")
-        //        //        print (language)
-        //
-        //        //appDelegate.saveContext()
-        //
-        //        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Settings")
-        //        do{
-        //            let results = try context.fetch(fetchRequest)
-        //            for result in results as! [NSManagedObject]{
-        //                print(result.value(forKey: "language"))
-        //            }
-        //        } catch {
-        //            print(error)
-        //        }
-        
-        //        UINavigationBar.appearance().backIndicatorImage = UIImage(named: "custom-back")
-        //        UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "custom-back")
-        
         view.backgroundColor = .white
+        
+        audioSettingsSwitch.isOn = UserDefaultsManager().checkKey(key: "isAudioOnKey") ?  UserDefaultsManager.isAudioOn : true
+
+        
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -158,7 +135,8 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
 //    }
     @objc func saveSettings(sender: UIButton!){
         UserDefaultsManager.isAudioOn = audioSettingsSwitch.isOn
-        let topMainMenuController = MainMenuViewController()
-        navigationController?.pushViewController(topMainMenuController, animated: true)
+        //print("value to save: \(audioSettingsSwitch.isOn)")
+        let mainMenuController = MainMenuViewController()
+        navigationController?.pushViewController(mainMenuController, animated: true)
     }
 }

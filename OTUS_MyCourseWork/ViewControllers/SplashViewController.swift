@@ -69,7 +69,7 @@ class SplashViewController: UIViewController {
     private lazy var loadingLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.bold) //UIFont.boldSystemFont(ofSize: 20.0)
+        label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.bold)
         label.textColor = .black
         label.text = "LOADING..."
         return label
@@ -138,50 +138,17 @@ class SplashViewController: UIViewController {
         
         let operationQueue = OperationQueue()
         operationQueue.maxConcurrentOperationCount = 1
-        
         operationQueue.isSuspended = true
         lightQueue.forEach { item in
-            let operation = LightOperation(view: item.view, duration: 0, delay: 0.1, sound: nil)
+            let operation = LampOperation(view: item.view, sound: nil, delayOn: 0.2, delayOff: nil)
             operationQueue.addOperation(operation)
         }
         operationQueue.addOperation {
             DispatchQueue.main.async {
-                let mainMenuController = MainMenuViewController()
-                self.navigationController?.setViewControllers([mainMenuController], animated: true)
-                //self.navigationController?.pushViewController(mainMenuController, animated: true)
-                //self.navigationController?.viewControllers.removeFirst()
+                let menuController = MainMenuViewController()
+                self.navigationController?.setViewControllers([menuController], animated: true)
             }
         }
-        
         operationQueue.isSuspended = false
-        
-        //        for item in lightQueue {
-        //            queue.addOperation { [weak self] in
-        //                DispatchQueue.main.async {
-        //                    self?.lightLamp(lampImageView: item.view, lampSound: item.sound)
-        //                }
-        //                queue.isSuspended = true
-        //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-        //                    queue.isSuspended = false
-        //                }
-        //            }
-        //        }
-        //        queue.addOperation {
-        //            DispatchQueue.main.async {
-        //                let mainMenuController = MainMenuViewController()
-        //                self.navigationController?.pushViewController(mainMenuController, animated: true)
-        //                self.navigationController?.viewControllers.removeFirst()
-        //            }
-        //        }
     }
-    
-//    func lightLamp(lampImageView: UIImageView, lampSound: String) {
-//        let animation = CABasicAnimation(keyPath: "opacity")
-//        animation.fromValue = 0
-//        animation.toValue = 1
-//        animation.duration = 0.1
-//
-//        lampImageView.layer.opacity = 1
-//        lampImageView.layer.add(animation, forKey: nil)
-//    }
 }

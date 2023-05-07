@@ -7,11 +7,12 @@
 
 import Foundation
 
-final class UserDefaultsManager {
+class UserDefaultsManager {
     private static let defaults = UserDefaults.standard
     private enum Keys: String {
         case isAudioOnKey
     }
+    
     static var isAudioOn: Bool {
         get {
             return defaults.bool(forKey: Keys.isAudioOnKey.rawValue)
@@ -21,4 +22,10 @@ final class UserDefaultsManager {
         }
     }
     
+    func checkKey(key: String) -> Bool {
+        guard UserDefaults.standard.object(forKey: key) != nil else {
+            return false
+        }
+        return true
+    }
 }

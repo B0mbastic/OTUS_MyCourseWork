@@ -118,12 +118,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		D2AA08DF29FD410300F88DE7 /* UserDefaults */ = {
+		D2AA08DF29FD410300F88DE7 /* UserDefaultsService */ = {
 			isa = PBXGroup;
 			children = (
 				D2AC610129F82EB2006ADCE9 /* UserDefaultsManager.swift */,
 			);
-			path = UserDefaults;
+			path = UserDefaultsService;
 			sourceTree = "<group>";
 		};
 		D2AA08E129FD413100F88DE7 /* AudioPlayer */ = {
@@ -168,8 +168,8 @@
 				D2ACCAB629FEFABB008DC429 /* NetworkService */,
 				D2AA08E229FD414100F88DE7 /* Operations */,
 				D2AA08E129FD413100F88DE7 /* AudioPlayer */,
-				D2AA08DF29FD410300F88DE7 /* UserDefaults */,
-				D2AB8F4F29F3ABD40032C485 /* CoreData */,
+				D2AA08DF29FD410300F88DE7 /* UserDefaultsService */,
+				D2AB8F4F29F3ABD40032C485 /* CoreDataService */,
 				D2A36BCD29EC7D4F00F413A7 /* Model */,
 				D28E60DD29E27FF600C94D6B /* ViewControllers */,
 				D2B4047C29BF79C700CEAD9E /* AppDelegate */,
@@ -182,13 +182,13 @@
 			path = OTUS_MyCourseWork;
 			sourceTree = "<group>";
 		};
-		D2AB8F4F29F3ABD40032C485 /* CoreData */ = {
+		D2AB8F4F29F3ABD40032C485 /* CoreDataService */ = {
 			isa = PBXGroup;
 			children = (
 				D2B6584F29F43EEA009EB3C3 /* OTUS_MyCourseWork.xcdatamodeld */,
 				D2AEE8E329FFED7B00781D7C /* CoreDataManager.swift */,
 			);
-			path = CoreData;
+			path = CoreDataService;
 			sourceTree = "<group>";
 		};
 		D2ACCAB629FEFABB008DC429 /* NetworkService */ = {
