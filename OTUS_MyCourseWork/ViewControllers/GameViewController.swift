@@ -91,7 +91,7 @@ class GameViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 15.0)
         label.textColor = .white
         label.textAlignment = .center
-        label.text = "POINTS: 0"
+        label.text = "\(NSLocalizedString("points", comment: "")): 0"
         label.backgroundColor = .systemCyan
         label.layer.cornerRadius = 15
         label.layer.masksToBounds = true
@@ -105,7 +105,7 @@ class GameViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 15.0)
         label.textColor = .white
         label.textAlignment = .center
-        label.text = "LEVEL 1"
+        label.text = "\(NSLocalizedString("level", comment: "")) 1"
         label.backgroundColor = .systemPurple
         label.layer.cornerRadius = 15
         label.layer.masksToBounds = true
@@ -235,7 +235,7 @@ class GameViewController: UIViewController {
         //        button.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         button.layer.cornerRadius = 15
         button.layer.zPosition = 5
-        button.setTitle("START", for: .normal)
+        button.setTitle(NSLocalizedString("start", comment: ""), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.addTarget(self, action: #selector(startGame), for: .touchUpInside)
@@ -364,8 +364,8 @@ class GameViewController: UIViewController {
     }
     
     @objc func startGame(sender: UIButton!) {
-        pointsLabel.text = "POINTS: \(playerPoints)"
-        levelLabel.text = "LEVEL: \(gameLevel)"
+        pointsLabel.text = "\(NSLocalizedString("points", comment: "")): \(playerPoints)"
+        levelLabel.text = "\(NSLocalizedString("level", comment: "")) \(gameLevel)"
         statusLabel.alpha = 0
         statusLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
         startButton.isHidden = true
@@ -420,13 +420,13 @@ class GameViewController: UIViewController {
                 if lampNumber == gameSequence.count {
                     gameLevel += 1
                     gameSequence.append(Int.random(in: 0...5))
-                    pointsLabel.text = ("POINTS: \(playerPoints)")
+                    pointsLabel.text = ("\(NSLocalizedString("points", comment: "")): \(playerPoints)")
                     //levelLabel.text = ("LEVEL: \(gameLevel)")
                     //                    let gameResultsController = GameResultsViewController()
                     //                    gameResultsController.isModalInPresentation = true
                     //                    gameResultsController.showGameResult(didWin: true, playerPoints: playerPoints)
                     //navigationController?.present(gameResultsController, animated: true)
-                    statusLabel.text = "Level \(gameLevel - 1) complete!"
+                    statusLabel.text = "\(NSLocalizedString("Level", comment: "")) \(gameLevel - 1) \(NSLocalizedString("complete", comment: ""))!"
                     UIView.animate(withDuration: 0.5, delay: 0) {
                         self.statusLabel.alpha = 1
                         self.statusLabel.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
@@ -442,7 +442,7 @@ class GameViewController: UIViewController {
                     }
                 }
                 else {
-                    pointsLabel.text = ("POINTS: \(playerPoints)")
+                    pointsLabel.text = ("\(NSLocalizedString("points", comment: "")): \(playerPoints)")
                     lampNumber += 1
                     playerSequence = []
                     
@@ -465,7 +465,7 @@ class GameViewController: UIViewController {
             }
             gameLevel = 1
             gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(3))
-            statusLabel.text = "YOU LOSE!"
+            statusLabel.text = "\(NSLocalizedString("lose", comment: ""))!"
             UIView.animate(withDuration: 0.5, delay: 0) {
                 self.statusLabel.alpha = 1
                 self.statusLabel.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
@@ -479,7 +479,6 @@ class GameViewController: UIViewController {
                     DispatchQueue.main.async {
                         let gameResultsController = GameResultsViewController()
                         gameResultsController.playerPoints = self.playerPoints
-                        //gameResultsController.setPlayerPoints(points: self.playerPoints)
                         self.navigationController?.setViewControllers([gameResultsController], animated: true)
                     }
                     

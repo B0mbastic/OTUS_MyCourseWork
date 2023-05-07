@@ -71,7 +71,7 @@ class SplashViewController: UIViewController {
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.bold)
         label.textColor = .black
-        label.text = "LOADING..."
+        label.text = "\(NSLocalizedString("loading", comment: ""))..."
         return label
     } ()
     private func setupViews() {
@@ -145,8 +145,8 @@ class SplashViewController: UIViewController {
         }
         operationQueue.addOperation {
             DispatchQueue.main.async {
-                let menuController = MainMenuViewController()
-                self.navigationController?.setViewControllers([menuController], animated: true)
+                let mainMenuController = MainMenuViewController()
+                self.navigationController?.setViewControllers([mainMenuController], animated: true)
             }
         }
         operationQueue.isSuspended = false

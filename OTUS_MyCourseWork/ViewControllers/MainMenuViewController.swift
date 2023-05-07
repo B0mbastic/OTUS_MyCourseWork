@@ -30,7 +30,7 @@ class MainMenuViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
-        button.setTitle("PLAY GAME", for: .normal)
+        button.setTitle(NSLocalizedString("play", comment: ""), for: .normal)
         //button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(playGame), for: .touchUpInside)
         return button
@@ -41,7 +41,7 @@ class MainMenuViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
-        button.setTitle("SETTINGS", for: .normal)
+        button.setTitle(NSLocalizedString("settings", comment: ""), for: .normal)
         //button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         return button
@@ -53,7 +53,7 @@ class MainMenuViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
-        button.setTitle("TOP PLAYERS", for: .normal)
+        button.setTitle(NSLocalizedString("top players", comment: ""), for: .normal)
         //button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(openTopPlayers), for: .touchUpInside)
         return button
@@ -76,7 +76,7 @@ class MainMenuViewController: UIViewController {
         gameButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(mainLabel.snp.bottom).offset(50)
-            make.width.equalTo(200)
+            make.width.equalTo(220)
             make.height.equalTo(40)
         }
         
@@ -84,7 +84,7 @@ class MainMenuViewController: UIViewController {
         settingsButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(gameButton.snp.bottom).offset(20)
-            make.width.equalTo(200)
+            make.width.equalTo(220)
             make.height.equalTo(40)
         }
         
@@ -92,7 +92,7 @@ class MainMenuViewController: UIViewController {
         topPlayersButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(settingsButton.snp.bottom).offset(20)
-            make.width.equalTo(200)
+            make.width.equalTo(220)
             make.height.equalTo(40)
         }
     }

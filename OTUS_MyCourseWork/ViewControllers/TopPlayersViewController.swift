@@ -30,7 +30,7 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
-        label.text = "Top players"
+        label.text = NSLocalizedString("top players label", comment: "")
         label.textColor = .black
         return label
     }()

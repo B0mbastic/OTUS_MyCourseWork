@@ -1,0 +1,33 @@
+/* 
+  Localizable.strings
+  OTUS_MyCourseWork
+
+  Created by Александр Ковбасин on 08.05.2023.
+  
+*/
+"loading" = "LOADING";
+
+"play" = "PLAY GAME";
+"settings" = "SETTINGS";
+"top players" = "TOP PLAYERS";
+
+"points" = "POINTS";
+"level" = "LEVEL";
+"start" = "START";
+"Level" = "Levwl";
+"complete" = "is complete";
+"lose" = "YOU LOSE";
+
+"settings label" = "Settinfs";
+"audio label" = "Sound";
+"save settings" = "SAVE";
+
+"top players label" = "Top players";
+
+"points label" = "Your points";
+"name label" = "Name";
+"name placeholder" = "Enter name";
+"name error" = "Please enter name";
+"avatar label" = "Avatar";
+"generate" = "Generate";
+"save highscore" = "Save highscore";

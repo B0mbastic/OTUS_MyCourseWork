@@ -40,7 +40,7 @@ class GameResultsViewController: UIViewController {
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
         label.textColor = .black
-        label.text = "Your points: \(playerPoints)"
+        label.text = "\(NSLocalizedString("points label", comment: "")): \(playerPoints)"
         label.layer.cornerRadius = 20
         label.backgroundColor = .white
         label.alpha = 0
@@ -63,7 +63,7 @@ class GameResultsViewController: UIViewController {
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 20.0)
         label.textColor = .black
-        label.text = "Name:"
+        label.text = NSLocalizedString("name label", comment: "")
         label.alpha = 0
         label.layer.zPosition = 2
         return label
@@ -73,14 +73,14 @@ class GameResultsViewController: UIViewController {
         label.textAlignment = .right
         label.font = UIFont.systemFont(ofSize: 20.0)
         label.textColor = .black
-        label.text = "Aavatar:"
+        label.text = NSLocalizedString("avatar label", comment: "")
         label.alpha = 0
         label.layer.zPosition = 2
         return label
     }()
     private lazy var playerNameTextField: InsetsTextField = {
         let textfield = InsetsTextField()
-        textfield.placeholder = "Enter your name"
+        textfield.placeholder = NSLocalizedString("name placeholder", comment: "")
         textfield.clearButtonMode = .whileEditing
         textfield.backgroundColor = .white
         textfield.layer.cornerRadius = 10
@@ -94,7 +94,7 @@ class GameResultsViewController: UIViewController {
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 10.0)
         label.textColor = .red
-        label.text = "Enter your name please!"
+        label.text = NSLocalizedString("name error", comment: "")
         label.alpha = 0
         label.layer.zPosition = 2
         return label
@@ -115,7 +115,7 @@ class GameResultsViewController: UIViewController {
         button.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         button.layer.cornerRadius = 10
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
-        button.setTitle("Generate", for: .normal)
+        button.setTitle(NSLocalizedString("generate", comment: ""), for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(generateAvatar), for: .touchUpInside)
         button.alpha = 0
@@ -128,7 +128,7 @@ class GameResultsViewController: UIViewController {
         //button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
         button.layer.cornerRadius = 15
-        button.setTitle("Save my highscore!", for: .normal)
+        button.setTitle("\(NSLocalizedString("save highscore", comment: ""))!", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(savePlayer), for: .touchUpInside)
@@ -258,14 +258,14 @@ class GameResultsViewController: UIViewController {
         } else {
             playerNameError.alpha = 0
             
-            //        let managedObject = TopPlayers(entity: CoreDataManager.instance.entityForName(entityName: "TopPlayers"), insertInto: CoreDataManager.instance.context)
-            //        managedObject.name = playerNameTextField.text
-            //        managedObject.points = Int16(playerPoints)
-            //        managedObject.avatar = imageData
-            //        CoreDataManager.instance.saveContext()
-            //        let mainMenuController = MainMenuViewController()
-            //        let gameController = GameViewController()
-            //        self.navigationController?.setViewControllers([mainMenuController, gameController], animated: true)
+            let managedObject = TopPlayers(entity: CoreDataManager.instance.entityForName(entityName: "TopPlayers"), insertInto: CoreDataManager.instance.context)
+            managedObject.name = playerNameTextField.text
+            managedObject.points = Int16(playerPoints)
+            managedObject.avatar = imageData
+            CoreDataManager.instance.saveContext()
+            let mainMenuController = MainMenuViewController()
+            let gameController = GameViewController()
+            self.navigationController?.setViewControllers([mainMenuController, gameController], animated: true)
         }
     }
     
@@ -275,7 +275,7 @@ class GameResultsViewController: UIViewController {
     }
     
     @objc func generateAvatar(sender: UIButton!){
-        self.generateAvatarButton.setTitle("Loading...", for: .normal)
+        self.generateAvatarButton.setTitle(NSLocalizedString("loading", comment: ""), for: .normal)
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.dicebear.com"
@@ -293,7 +293,7 @@ class GameResultsViewController: UIViewController {
             case .success(let data):
                 self.imageData = data
                 self.avatarImageView.image = UIImage(data: data)
-                self.generateAvatarButton.setTitle("Generate", for: .normal)
+                self.generateAvatarButton.setTitle(NSLocalizedString("generate", comment: ""), for: .normal)
             case .failure:
                 print("error")
                 //error handler

@@ -20,7 +20,7 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
     private lazy var mainLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 30.0)
-        label.text = "Settings"
+        label.text = NSLocalizedString("settings label", comment: "")
         label.textColor = .black
         return label
     }()
@@ -37,7 +37,7 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
     private lazy var audioSettingsLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
-        label.text = "Audio:"
+        label.text = "\(NSLocalizedString("audio label", comment: "")):"
         label.textColor = .black
         return label
     }()
@@ -46,27 +46,13 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
         //sw.isOn = true
         return sw
     }()
-    private lazy var languageSettingsLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20.0)
-        label.text = "Language:"
-        label.textColor = .black
-        return label
-    }()
-    private lazy var languageLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20.0)
-        //label.text = gameSettings.language.rawValue
-        label.textColor = .black
-        return label
-    }()
     private lazy var saveSettingsButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20.0)
         button.layer.cornerRadius = 15
-        button.setTitle("SAVE", for: .normal)
+        button.setTitle(NSLocalizedString("save settings", comment: ""), for: .normal)
         button.addTarget(self, action: #selector(saveSettings), for: .touchUpInside)
         return button
     }()
@@ -97,20 +83,10 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
             make.leading.equalTo(audioSettingsLabel.snp.trailing).offset(40)
             make.top.equalTo(mainLabel.snp.bottom).offset(20)
         }
-        view.addSubview(languageSettingsLabel)
-        languageSettingsLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(40)
-            make.top.equalTo(audioSettingsLabel.snp.bottom).offset(20)
-        }
-        view.addSubview(languageLabel)
-        languageLabel.snp.makeConstraints { make in
-            make.leading.equalTo(languageSettingsLabel.snp.trailing).offset(40)
-            make.top.equalTo(audioSettingsLabel.snp.bottom).offset(20)
-        }
         view.addSubview(saveSettingsButton)
         saveSettingsButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(languageSettingsLabel.snp.bottom).offset(50)
+            make.top.equalTo(audioSettingsSwitch.snp.bottom).offset(50)
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
