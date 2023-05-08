@@ -61,7 +61,7 @@ class GameViewController: UIViewController {
             view: blueLight,
             sound: "blue.wav")]
     
-    var gameSequence: [Int] = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(3))
+    var gameSequence: [Int] = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
     var playerPoints: Int = 0
     var gameLevel: Int = 1
     //var isAudioOn = UserDefaultsManager.isAudioOn
@@ -464,7 +464,7 @@ class GameViewController: UIViewController {
                 }
             }
             gameLevel = 1
-            gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(3))
+            gameSequence = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
             statusLabel.text = "\(NSLocalizedString("lose", comment: ""))!"
             UIView.animate(withDuration: 0.5, delay: 0) {
                 self.statusLabel.alpha = 1
