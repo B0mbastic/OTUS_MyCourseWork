@@ -31,3 +31,6 @@
 "avatar label" = "Аватар";
 "generate" = "Создать";
 "save highscore" = "Сохранить рекорд";
+
+"top name label" = "имя";
+"top points label" = "очки";

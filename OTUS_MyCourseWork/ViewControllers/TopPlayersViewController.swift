@@ -92,4 +92,48 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         cell?.playerAvatarImageView.image = UIImage(data: player.avatar!)
         return cell ?? TopPlayersTableCell()
     }
+    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection
+//                   section: Int) -> String? {
+//        return "                 name                  points"
+//    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var headerView: UIView = {
+            let view = UIView()
+            //view.frame = CGRect(x: 10, y: 10, width: 100, height: 80)
+            //view.backgroundColor = .systemMint
+            return view
+        }()
+        lazy var playerNameLabel: UILabel = {
+            let label = UILabel()
+            //label.backgroundColor = .red
+            label.font = UIFont.boldSystemFont(ofSize: 15.0)
+            label.textAlignment = .center
+            label.text = NSLocalizedString("top name label", comment: "")
+            return label
+        }()
+        
+        lazy var playerPointsLabel: UILabel = {
+            let label = UILabel()
+            //label.backgroundColor = .green
+            label.font = UIFont.boldSystemFont(ofSize: 15.0)
+            label.textAlignment = .center
+            label.text = NSLocalizedString("top points label", comment: "")
+            return label
+        }()
+        headerView.addSubview(playerNameLabel)
+        playerNameLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(140)
+            make.centerY.equalTo(headerView)
+        }
+        
+        headerView.addSubview(playerPointsLabel)
+        playerPointsLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(40)
+            make.centerY.equalTo(headerView)
+        }
+        
+        return headerView
+    }
 }

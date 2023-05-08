@@ -31,3 +31,6 @@
 "avatar label" = "Avatar";
 "generate" = "Generate";
 "save highscore" = "Save highscore";
+
+"top name label" = "name";
+"top points label" = "points";
