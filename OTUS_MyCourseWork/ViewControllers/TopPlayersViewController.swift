@@ -130,7 +130,7 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         
         headerView.addSubview(playerPointsLabel)
         playerPointsLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(40)
+            make.trailing.equalToSuperview().inset(40)
             make.centerY.equalTo(headerView)
         }
         
