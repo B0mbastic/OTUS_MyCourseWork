@@ -8,10 +8,7 @@
 import UIKit
 import CoreData
 
-class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITableViewDataSource {tr
-    
-    
-
+class SettingsViewController: UIViewController {
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background.png")!)
@@ -24,16 +21,7 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
         label.textColor = .black
         return label
     }()
-    //    private lazy var settingsTableView: UITableView = {
-    //        let table = UITableView(frame: view.bounds, style: .plain)
-    //        table.backgroundColor = .systemGray6
-    //        table.layer.cornerRadius = 20
-    //        table.register(SettingsTableCell.self, forCellReuseIdentifier: cellID)
-    //        table.delegate = self
-    //        table.dataSource = self
-    //        table.rowHeight = 80
-    //        return table
-    //    }()
+
     private lazy var audioSettingsLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20.0)
@@ -43,7 +31,6 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
     }()
     private lazy var audioSettingsSwitch: UISwitch = {
         let sw = UISwitch()
-        //sw.isOn = true
         return sw
     }()
     private lazy var saveSettingsButton: UIButton = {
@@ -90,28 +77,10 @@ class SettingsViewController: UIViewController { //}, UITableViewDelegate, UITab
             make.width.equalTo(200)
             make.height.equalTo(40)
         }
-        //        view.addSubview(settingsTableView)
-        //        settingsTableView.snp.makeConstraints { make in
-        //            make.leading.equalToSuperview().offset(40)
-        //            make.trailing.equalToSuperview().offset(-40)
-        //            make.top.equalTo(mainLabel.snp.bottom).offset(20)
-        //            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        //        }
     }
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 3
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = topPlayersTableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? TopPlayersTableCell
-//        let personName: String
-//        personName = "\(personsArray[indexPath.row].personFirstName) \(personsArray[indexPath.row].personMiddleName) \(personsArray[indexPath.row].personLastName)"
-//        cell?.setPersonName(personName: personName, personPhoto: personsArray[indexPath.row].personPhoto)
-//        return cell ?? TopPlayersTableCell()
-//    }
+
     @objc func saveSettings(sender: UIButton!){
         UserDefaultsManager.isAudioOn = audioSettingsSwitch.isOn
-        //print("value to save: \(audioSettingsSwitch.isOn)")
         let mainMenuController = MainMenuViewController()
         navigationController?.pushViewController(mainMenuController, animated: true)
     }

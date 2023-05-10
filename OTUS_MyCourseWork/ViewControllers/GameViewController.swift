@@ -30,8 +30,7 @@ class GameViewController: UIViewController {
             return 0
         }
     }()
-    
-    // let blinkSpeed: Double = 0.5
+
     var playerSequence: [Int] = []
     var lampNumber: Int = 0
     
@@ -64,9 +63,6 @@ class GameViewController: UIViewController {
     var gameSequence: [Int] = Array([0, 1, 2, 3, 4, 5].shuffled().prefix(5))
     var playerPoints: Int = 0
     var gameLevel: Int = 1
-    //var isAudioOn = UserDefaultsManager.isAudioOn
-    
-    //private var audioPlayer = AudioPlayer()
     private lazy var sizeConstant: CGFloat = view.frame.width * 0.7
     
     var operationQueue = OperationQueue()
@@ -80,12 +76,9 @@ class GameViewController: UIViewController {
         label.backgroundColor = .white
         label.alpha = 0
         label.layer.cornerRadius = 20
-        //label.layer.backgroundColor = CGColor(red: 255, green: 255, blue: 255, alpha: 1)
         label.layer.zPosition = 2
-        //label.isHidden = true
         return label
     }()
-    
     private lazy var pointsLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15.0)
@@ -95,8 +88,6 @@ class GameViewController: UIViewController {
         label.backgroundColor = .systemCyan
         label.layer.cornerRadius = 15
         label.layer.masksToBounds = true
-        //label.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
-        //label.layer.borderWidth = 2
         label.layer.zPosition = 2
         return label
     }()
@@ -109,8 +100,6 @@ class GameViewController: UIViewController {
         label.backgroundColor = .systemPurple
         label.layer.cornerRadius = 15
         label.layer.masksToBounds = true
-        //        label.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
-        //        label.layer.borderWidth = 2
         label.layer.zPosition = 2
         return label
     }()
@@ -171,7 +160,6 @@ class GameViewController: UIViewController {
     private lazy var violetButton: UIButton = {
         let button = UIButton()
         button.tag = 0
-        //button.backgroundColor = .systemPurple
         button.layer.cornerRadius = sizeConstant/6
         button.layer.zPosition = 5
         button.isHidden = true
@@ -181,7 +169,6 @@ class GameViewController: UIViewController {
     private lazy var redButton: UIButton = {
         let button = UIButton()
         button.tag = 1
-        //button.backgroundColor = .systemRed
         button.layer.cornerRadius = sizeConstant/6
         button.layer.zPosition = 5
         button.isHidden = true
@@ -191,7 +178,6 @@ class GameViewController: UIViewController {
     private lazy var yellowButton: UIButton = {
         let button = UIButton()
         button.tag = 2
-        //button.backgroundColor = .systemYellow
         button.layer.cornerRadius = sizeConstant/6
         button.layer.zPosition = 5
         button.isHidden = true
@@ -201,7 +187,6 @@ class GameViewController: UIViewController {
     private lazy var greenButton: UIButton = {
         let button = UIButton()
         button.tag = 3
-        //button.backgroundColor = .systemGreen
         button.layer.cornerRadius = sizeConstant/6
         button.layer.zPosition = 5
         button.isHidden = true
@@ -211,7 +196,6 @@ class GameViewController: UIViewController {
     private lazy var orangeButton: UIButton = {
         let button = UIButton()
         button.tag = 4
-        //button.backgroundColor = .systemOrange
         button.layer.cornerRadius = sizeConstant/6
         button.layer.zPosition = 5
         button.isHidden = true
@@ -221,7 +205,6 @@ class GameViewController: UIViewController {
     private lazy var blueButton: UIButton = {
         let button = UIButton()
         button.tag = 5
-        //button.backgroundColor = .systemBlue
         button.layer.cornerRadius = sizeConstant/6
         button.layer.zPosition = 5
         button.isHidden = true
@@ -231,8 +214,6 @@ class GameViewController: UIViewController {
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-        //        button.layer.borderWidth = 2
-        //        button.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         button.layer.cornerRadius = 15
         button.layer.zPosition = 5
         button.setTitle(NSLocalizedString("start", comment: ""), for: .normal)
@@ -241,7 +222,6 @@ class GameViewController: UIViewController {
         button.addTarget(self, action: #selector(startGame), for: .touchUpInside)
         return button
     }()
-    
     private func setupViews() {
         view.addSubview(backgroundView)
         view.addSubview(toyImageView)
@@ -401,12 +381,7 @@ class GameViewController: UIViewController {
     
     @objc func pressButton(sender: UIButton) {
         let buttonTag: Int = sender.tag
-        //let lampImageView = lamps[buttonTag].view
-        //let lampSound = lamps[buttonTag].sound
         operationQueue.maxConcurrentOperationCount = lampNumber
-        //let operation = LampOperation(view: lampImageView, sound: lampSound, delayOn: 0, delayOff: 0.4)
-        //operationQueue.addOperation(operation)
-        //operationQueue.maxConcurrentOperationCount = 1
         showSequence(sequence: [buttonTag], lampNumber: 1, delayOn: 0, delayOff: 0.4, sound: true)
         playerSequence.append(buttonTag)
         if isEqualArray(playerSequence, with: gameSequence) {
@@ -421,11 +396,6 @@ class GameViewController: UIViewController {
                     gameLevel += 1
                     gameSequence.append(Int.random(in: 0...5))
                     pointsLabel.text = ("\(NSLocalizedString("points", comment: "")): \(playerPoints)")
-                    //levelLabel.text = ("LEVEL: \(gameLevel)")
-                    //                    let gameResultsController = GameResultsViewController()
-                    //                    gameResultsController.isModalInPresentation = true
-                    //                    gameResultsController.showGameResult(didWin: true, playerPoints: playerPoints)
-                    //navigationController?.present(gameResultsController, animated: true)
                     statusLabel.text = "\(NSLocalizedString("Level", comment: "")) \(gameLevel - 1) \(NSLocalizedString("complete", comment: ""))!"
                     UIView.animate(withDuration: 0.5, delay: 0) {
                         self.statusLabel.alpha = 1

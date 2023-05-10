@@ -111,7 +111,6 @@ class GameResultsViewController: UIViewController {
     private lazy var generateAvatarButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(red: 210/255, green: 212/255, blue: 246/255, alpha: 1)
-        //button.layer.borderWidth = 1
         button.layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         button.layer.cornerRadius = 10
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0)
@@ -125,7 +124,6 @@ class GameResultsViewController: UIViewController {
     private lazy var saveHighscoreButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemGreen
-        //button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red: 0/255, green: 0/255, blue: 0/225, alpha: 1).cgColor
         button.layer.cornerRadius = 15
         button.setTitle("\(NSLocalizedString("save highscore", comment: ""))!", for: .normal)
@@ -257,7 +255,6 @@ class GameResultsViewController: UIViewController {
             playerNameError.alpha = 1
         } else {
             playerNameError.alpha = 0
-            
             let managedObject = TopPlayers(entity: CoreDataManager.instance.entityForName(entityName: "TopPlayers"), insertInto: CoreDataManager.instance.context)
             managedObject.name = playerNameTextField.text
             managedObject.points = Int16(playerPoints)

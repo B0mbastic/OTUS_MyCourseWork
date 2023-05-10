@@ -71,13 +71,12 @@ class SplashViewController: UIViewController {
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.bold)
         label.textColor = .black
-        label.text = "\(NSLocalizedString("loading", comment: ""))..."
+        label.text = "LOADING..."
         return label
     } ()
     private func setupViews() {
         view.addSubview(backgroundView)
         backgroundView.snp.makeConstraints { make in
-            // make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.top.bottom.leading.trailing.equalToSuperview()
         }
         view.addSubview(AllOff)

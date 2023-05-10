@@ -99,15 +99,12 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
 //    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var headerView: UIView = {
+        let headerView: UIView = {
             let view = UIView()
-            //view.frame = CGRect(x: 10, y: 10, width: 100, height: 80)
-            //view.backgroundColor = .systemMint
             return view
         }()
         lazy var playerNameLabel: UILabel = {
             let label = UILabel()
-            //label.backgroundColor = .red
             label.font = UIFont.boldSystemFont(ofSize: 15.0)
             label.textAlignment = .center
             label.text = NSLocalizedString("top name label", comment: "")
@@ -116,7 +113,6 @@ class TopPlayersViewController: UIViewController, UITableViewDelegate, UITableVi
         
         lazy var playerPointsLabel: UILabel = {
             let label = UILabel()
-            //label.backgroundColor = .green
             label.font = UIFont.boldSystemFont(ofSize: 15.0)
             label.textAlignment = .center
             label.text = NSLocalizedString("top points label", comment: "")
